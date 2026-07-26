@@ -100,9 +100,11 @@
   .card-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:24px; }
   .drink-card{ position:relative; border-radius:22px; overflow:hidden; border:1px solid rgba(255,255,255,.08); background:#0d0d0d; cursor:pointer; transition:transform .45s cubic-bezier(.2,.7,.2,1), border-color .45s ease; }
   .drink-card:hover{ transform:translateY(-10px); border-color:var(--red); }
-  .drink-media{ position:relative; height:300px; overflow:hidden; }
-  .drink-media .sheen{ position:absolute; inset:0; background:radial-gradient(120% 80% at 30% 12%, rgba(255,255,255,.42), transparent 46%); mix-blend-mode:screen; pointer-events:none; }
-  .drink-media .shade{ position:absolute; inset:0; background:linear-gradient(180deg, rgba(0,0,0,.12) 0%, transparent 34%, rgba(0,0,0,.62) 100%); pointer-events:none; }
+  .drink-media{ position:relative; height:300px; overflow:hidden; background:#111; }
+  .drink-media img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center 30%; display:block; transition:transform .5s cubic-bezier(.2,.7,.2,1); }
+  .drink-card:hover .drink-media img{ transform:scale(1.06); }
+  .drink-media .sheen{ position:absolute; inset:0; background:radial-gradient(120% 80% at 30% 12%, rgba(255,255,255,.18), transparent 46%); mix-blend-mode:screen; pointer-events:none; }
+  .drink-media .shade{ position:absolute; inset:0; background:linear-gradient(180deg, rgba(0,0,0,.05) 0%, transparent 34%, rgba(0,0,0,.72) 100%); pointer-events:none; }
   .drink-tag{ position:absolute; top:18px; left:18px; background:rgba(5,5,5,.82); color:var(--gold); font-family:var(--util); font-size:11px; font-weight:600; letter-spacing:.14em; text-transform:uppercase; padding:7px 13px; border-radius:100px; }
   .drink-price{ position:absolute; bottom:16px; right:18px; font-family:var(--anton); font-size:30px; color:#fff; text-shadow:0 2px 12px rgba(0,0,0,.5); }
   .drink-body{ padding:26px 24px 28px; }
@@ -610,9 +612,9 @@
 
   /* ---------- DATA ---------- */
   var DRINKS = [
-    { id:'boba',   name:'Brown Sugar Boba Milk Tea', short:'Brown Sugar', tag:'Best Seller', desc:'Silky milk tea layered with warm brown-sugar syrup and chewy tapioca pearls.', liquid:'#C79A6E', base:290 },
-    { id:'matcha', name:'Matcha Milk Tea',           short:'Matcha',      tag:'Fan Pick',    desc:'Stone-ground Japanese matcha whisked into fresh milk for an earthy, creamy sip.', liquid:'#AFC98C', base:290 },
-    { id:'mango',  name:'Mango Pomelo Sago',         short:'Mango Sago',  tag:'Signature',   desc:'Ripe mango, juicy pomelo and springy sago in a bright, refreshing classic.', liquid:'#F2B33C', base:480 }
+    { id:'boba',   name:'Brown Sugar Boba Milk Tea', short:'Brown Sugar', tag:'Best Seller', desc:'Silky milk tea layered with warm brown-sugar syrup and chewy tapioca pearls.', liquid:'#C79A6E', base:290, img:'assets/signature-boba.webp' },
+    { id:'matcha', name:'Matcha Milk Tea',           short:'Matcha',      tag:'Fan Pick',    desc:'Stone-ground Japanese matcha whisked into fresh milk for an earthy, creamy sip.', liquid:'#AFC98C', base:290, img:'assets/signature-matcha.webp' },
+    { id:'mango',  name:'Mango Pomelo Sago',         short:'Mango Sago',  tag:'Signature',   desc:'Ripe mango, juicy pomelo and springy sago in a bright, refreshing classic.', liquid:'#F2B33C', base:480, img:'assets/signature-mango.webp' }
   ];
   var COMBOS = [
     { src:'assets/combo-1.webp', alt:'Runcha combo offer — Matcha Milk Tea + Brown Sugar Boba Milk Tea, 540 Tk' },
@@ -687,7 +689,8 @@
       var card = el('a','drink-card'); card.href = FOODPANDA; card.target='_blank'; card.rel='noopener';
       card.setAttribute('data-reveal','');
       card.innerHTML =
-        '<div class="drink-media" style="background:'+d.liquid+';">'+
+        '<div class="drink-media">'+
+          '<img src="'+d.img+'" alt="'+esc(d.name)+' at Runcha Club" loading="lazy" />'+
           '<div class="sheen"></div><div class="shade"></div>'+
           '<span class="drink-tag">'+esc(d.tag)+'</span>'+
           '<span class="drink-price">Tk '+d.base+'</span>'+
