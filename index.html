@@ -80,9 +80,6 @@
   .hero-actions{ display:flex; flex-wrap:wrap; gap:16px; margin-top:38px; opacity:0; animation:heroIn .9s .46s cubic-bezier(.2,.7,.2,1) forwards; }
   .hero-actions .btn{ padding:17px 34px; font-size:15px; }
   .hero-stats{ display:flex; align-items:center; gap:26px; margin-top:44px; flex-wrap:wrap; opacity:0; animation:heroIn .9s .58s cubic-bezier(.2,.7,.2,1) forwards; }
-  .hero-scroll{ position:absolute; bottom:26px; left:50%; transform:translateX(-50%); z-index:2; display:flex; flex-direction:column; align-items:center; gap:8px; animation:floatY 2.4s ease-in-out infinite; }
-  .hero-scroll .lbl{ font-family:var(--util); font-size:10px; letter-spacing:.3em; color:rgba(255,255,255,.5); text-transform:uppercase; }
-  .hero-scroll .bar{ width:1px; height:30px; background:linear-gradient(var(--red), transparent); }
 
   /* MARQUEE */
   .marquee{ background:var(--red); overflow:hidden; padding:16px 0; border-top:2px solid var(--black); border-bottom:2px solid var(--black); }
@@ -373,7 +370,6 @@
       </div>
     </div>
   </div>
-  <div class="hero-scroll"><span class="lbl">Scroll</span><span class="bar"></span></div>
 </header>
 
 <!-- MARQUEE -->
