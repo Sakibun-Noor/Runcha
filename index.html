@@ -49,7 +49,7 @@
   /* NAV */
   nav{ position:fixed; top:0; left:0; right:0; z-index:100; display:flex; align-items:center; justify-content:space-between; padding:16px 40px; border-bottom:1px solid rgba(255,255,255,0); background:rgba(5,5,5,0); transition:background .4s ease, border-color .4s ease, backdrop-filter .4s ease; }
   nav.scrolled{ background:rgba(5,5,5,.92); border-bottom-color:rgba(255,255,255,.08); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); }
-  .nav-logo{ height:48px; width:auto; display:block; filter:drop-shadow(0 2px 8px rgba(0,0,0,.5)); }
+  .nav-logo{ height:auto; width:74px; display:block; filter:drop-shadow(0 2px 8px rgba(0,0,0,.5)); }
   .nav-links{ display:flex; align-items:center; gap:38px; }
   .nav-links a{ color:#fff; font-size:14px; font-weight:600; letter-spacing:.02em; }
   .nav-links a:hover{ color:var(--gold); }
@@ -267,7 +267,7 @@
   /* FOOTER */
   footer{ background:var(--black); padding:72px 40px 34px; border-top:1px solid rgba(255,255,255,.08); }
   .footer-grid{ display:grid; grid-template-columns:1.4fr 1fr 1fr 1fr; gap:40px; }
-  .footer-logo{ height:72px; width:auto; display:block; background:var(--cream); padding:10px 14px; border-radius:14px; }
+  .footer-logo{ height:auto; width:120px; display:block; background:var(--cream); padding:14px 18px; border-radius:14px; }
   .footer-grid p{ color:rgba(255,255,255,.55); font-size:14px; line-height:1.6; margin-top:20px; max-width:280px; }
   .footer-col-title{ font-family:var(--util); font-size:12px; letter-spacing:.2em; text-transform:uppercase; color:var(--gold); margin-bottom:18px; }
   .footer-links{ display:flex; flex-direction:column; gap:12px; }
@@ -348,7 +348,7 @@
 <!-- HERO -->
 <header class="hero" id="top">
   <div class="hero-bg">
-    <video id="heroVideo" autoplay muted loop playsinline poster="assets/favicon.png">
+    <video id="heroVideo" autoplay muted loop playsinline webkit-playsinline="true" preload="auto" disableRemotePlayback poster="assets/favicon.png">
       <source src="assets/runcha-hero.webm" type="video/webm" />
     </video>
     <div class="hero-shade-x"></div>
