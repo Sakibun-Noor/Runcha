@@ -1,746 +1,964 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<script src="./support.js"></script>
-</head>
-<body>
-<x-dc>
-<helmet>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Runcha Club — Premium Bubble Tea & Chinese Kitchen · Uttara, Dhaka</title>
+<meta name="description" content="Runcha Club — premium bubble tea and authentic Chinese flavours, crafted fresh in Uttara, Dhaka. Build your cup, browse the menu and order on Foodpanda." />
 <link rel="icon" href="assets/favicon.png" />
-<script src="./image-slot.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
 <style>
-  * { margin:0; padding:0; box-sizing:border-box; }
-  html { scroll-behavior:smooth; }
-  body { background:#050505; color:#FFFFFF; font-family:'Manrope',system-ui,sans-serif; -webkit-font-smoothing:antialiased; overflow-x:hidden; }
-  ::selection { background:#DC0C1C; color:#fff; }
-  a { color:#DC0C1C; text-decoration:none; }
-  a:hover { color:#ff2b3a; }
-  @keyframes heroIn { from { opacity:0; transform:translateY(38px); } to { opacity:1; transform:translateY(0); } }
-  @keyframes floatY { 0%,100% { transform:translateY(0); } 50% { transform:translateY(-14px); } }
-  @keyframes marqueeX { from { transform:translateX(0); } to { transform:translateX(-50%); } }
-  @keyframes bob { 0%,100% { transform:translateY(0) rotate(-1deg); } 50% { transform:translateY(-10px) rotate(1deg); } }
-  [data-rail]::-webkit-scrollbar { display:none; }
+  :root{
+    --black:#050505; --white:#FFFFFF; --red:#DC0C1C; --red-bright:#ff2b3a;
+    --gold:#DBA632; --cream:#FFF3F4;
+    --anton:'Anton',sans-serif; --body:'Manrope',system-ui,sans-serif; --util:'Space Grotesk',sans-serif;
+    --maxw:1280px;
+  }
+  *{ margin:0; padding:0; box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  body{ background:var(--black); color:var(--white); font-family:var(--body); -webkit-font-smoothing:antialiased; overflow-x:hidden; }
+  ::selection{ background:var(--red); color:#fff; }
+  a{ color:var(--red); text-decoration:none; }
+  a:hover{ color:var(--red-bright); }
+  img{ max-width:100%; }
+  button{ font-family:var(--body); }
+  :focus-visible{ outline:2px solid var(--gold); outline-offset:2px; }
+
+  @keyframes heroIn{ from{ opacity:0; transform:translateY(38px); } to{ opacity:1; transform:translateY(0); } }
+  @keyframes floatY{ 0%,100%{ transform:translateY(0); } 50%{ transform:translateY(-14px); } }
+  @keyframes marqueeX{ from{ transform:translateX(0); } to{ transform:translateX(-50%); } }
+  @keyframes bob{ 0%,100%{ transform:translateY(0) rotate(-1deg); } 50%{ transform:translateY(-10px) rotate(1deg); } }
+
+  .wrap{ max-width:var(--maxw); margin:0 auto; padding:0 40px; }
+  .eyebrow{ font-family:var(--util); font-size:13px; font-weight:600; letter-spacing:.3em; color:var(--gold); text-transform:uppercase; margin-bottom:14px; }
+  .h2{ font-family:var(--anton); font-weight:400; font-size:clamp(38px,5.5vw,72px); line-height:.96; text-transform:uppercase; letter-spacing:-.01em; }
+  .red{ color:var(--red); }
+  .btn{ display:inline-flex; align-items:center; gap:10px; border-radius:100px; font-weight:800; letter-spacing:.04em; text-transform:uppercase; transition:transform .2s ease, box-shadow .2s ease, background .2s ease, color .2s ease, border-color .2s ease; cursor:pointer; border:none; }
+  .btn-red{ background:var(--red); color:#fff; }
+  .btn-red:hover{ color:#fff; transform:translateY(-3px); box-shadow:0 16px 40px rgba(220,12,28,.5); }
+  .btn-ghost{ background:transparent; color:#fff; border:2px solid rgba(255,255,255,.4); }
+  .btn-ghost:hover{ background:#fff; color:var(--black); border-color:#fff; transform:translateY(-3px); }
+  .btn-dark{ background:var(--black); color:#fff; }
+  .btn-dark:hover{ color:#fff; transform:translateY(-2px); }
+
+  [data-reveal]{ opacity:0; transform:translateY(42px); transition:opacity .85s cubic-bezier(.2,.7,.2,1), transform .85s cubic-bezier(.2,.7,.2,1); }
+  [data-reveal].in{ opacity:1; transform:none; }
+
+  /* NAV */
+  nav{ position:fixed; top:0; left:0; right:0; z-index:100; display:flex; align-items:center; justify-content:space-between; padding:16px 40px; border-bottom:1px solid rgba(255,255,255,0); background:rgba(5,5,5,0); transition:background .4s ease, border-color .4s ease, backdrop-filter .4s ease; }
+  nav.scrolled{ background:rgba(5,5,5,.92); border-bottom-color:rgba(255,255,255,.08); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); }
+  .nav-logo{ height:48px; width:auto; display:block; filter:drop-shadow(0 2px 8px rgba(0,0,0,.5)); }
+  .nav-links{ display:flex; align-items:center; gap:38px; }
+  .nav-links a{ color:#fff; font-size:14px; font-weight:600; letter-spacing:.02em; }
+  .nav-links a:hover{ color:var(--gold); }
+  .nav-cta{ padding:11px 22px; font-size:13px; letter-spacing:.06em; }
+  .nav-burger{ display:none; flex-direction:column; gap:5px; background:transparent; border:none; cursor:pointer; padding:8px; }
+  .nav-burger span{ width:24px; height:2px; background:#fff; border-radius:2px; transition:transform .3s ease, opacity .3s ease; }
+  .nav-burger.open span:nth-child(1){ transform:translateY(7px) rotate(45deg); }
+  .nav-burger.open span:nth-child(2){ opacity:0; }
+  .nav-burger.open span:nth-child(3){ transform:translateY(-7px) rotate(-45deg); }
+  .mobile-menu{ display:none; position:fixed; top:0; left:0; right:0; z-index:99; padding:88px 24px 28px; background:rgba(5,5,5,.98); backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); border-bottom:1px solid rgba(255,255,255,.1); flex-direction:column; gap:4px; transform:translateY(-12px); opacity:0; pointer-events:none; transition:transform .3s ease, opacity .3s ease; }
+  .mobile-menu.open{ opacity:1; transform:translateY(0); pointer-events:auto; }
+  .mobile-menu a{ color:#fff; font-size:17px; font-weight:600; padding:14px 6px; border-bottom:1px solid rgba(255,255,255,.06); }
+  .mobile-menu a:last-child{ border-bottom:none; }
+
+  /* HERO */
+  header.hero{ position:relative; min-height:100vh; min-height:100svh; display:flex; align-items:center; overflow:hidden; }
+  .hero-bg{ position:absolute; inset:0; overflow:hidden; z-index:0; }
+  .hero-bg video{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; transform:scale(1.1); will-change:transform; }
+  .hero-shade-x{ position:absolute; inset:0; background:linear-gradient(90deg, rgba(5,5,5,.92) 0%, rgba(5,5,5,.72) 34%, rgba(5,5,5,.28) 68%, rgba(5,5,5,.55) 100%); }
+  .hero-shade-y{ position:absolute; inset:0; background:linear-gradient(180deg, rgba(5,5,5,.55) 0%, rgba(5,5,5,0) 22%, rgba(5,5,5,0) 60%, rgba(5,5,5,.9) 100%); }
+  .hero-inner{ position:relative; z-index:2; max-width:var(--maxw); width:100%; margin:0 auto; padding:120px 40px 40px; will-change:transform; }
+  .hero-copy{ max-width:760px; }
+  .hero-kicker{ display:inline-flex; align-items:center; gap:10px; opacity:0; animation:heroIn .8s .1s cubic-bezier(.2,.7,.2,1) forwards; }
+  .hero-kicker span.line{ width:34px; height:2px; background:var(--red); display:block; }
+  .hero-kicker span.txt{ font-family:var(--util); font-size:13px; font-weight:600; letter-spacing:.32em; color:var(--gold); text-transform:uppercase; }
+  h1.hero-title{ font-family:var(--anton); font-weight:400; font-size:clamp(52px,8vw,112px); line-height:.92; letter-spacing:-.01em; text-transform:uppercase; margin-top:22px; opacity:0; animation:heroIn .9s .22s cubic-bezier(.2,.7,.2,1) forwards; }
+  .hero-sub{ font-size:clamp(16px,1.6vw,20px); line-height:1.55; color:rgba(255,255,255,.82); max-width:520px; margin-top:26px; opacity:0; animation:heroIn .9s .34s cubic-bezier(.2,.7,.2,1) forwards; }
+  .hero-actions{ display:flex; flex-wrap:wrap; gap:16px; margin-top:38px; opacity:0; animation:heroIn .9s .46s cubic-bezier(.2,.7,.2,1) forwards; }
+  .hero-actions .btn{ padding:17px 34px; font-size:15px; }
+  .hero-stats{ display:flex; align-items:center; gap:26px; margin-top:44px; flex-wrap:wrap; opacity:0; animation:heroIn .9s .58s cubic-bezier(.2,.7,.2,1) forwards; }
+  .hero-scroll{ position:absolute; bottom:26px; left:50%; transform:translateX(-50%); z-index:2; display:flex; flex-direction:column; align-items:center; gap:8px; animation:floatY 2.4s ease-in-out infinite; }
+  .hero-scroll .lbl{ font-family:var(--util); font-size:10px; letter-spacing:.3em; color:rgba(255,255,255,.5); text-transform:uppercase; }
+  .hero-scroll .bar{ width:1px; height:30px; background:linear-gradient(var(--red), transparent); }
+
+  /* MARQUEE */
+  .marquee{ background:var(--red); overflow:hidden; padding:16px 0; border-top:2px solid var(--black); border-bottom:2px solid var(--black); }
+  .marquee-track{ display:flex; width:max-content; animation:marqueeX 26s linear infinite; }
+  .marquee-track > div{ display:flex; align-items:center; gap:34px; padding-right:34px; font-family:var(--anton); font-size:22px; letter-spacing:.02em; text-transform:uppercase; white-space:nowrap; }
+  .marquee .star{ color:var(--gold); }
+
+  section{ position:relative; }
+  .sec{ padding:120px 40px; }
+  .sec-head{ display:flex; align-items:flex-end; justify-content:space-between; gap:30px; flex-wrap:wrap; margin-bottom:56px; }
+  .sec-lede{ max-width:360px; color:rgba(255,255,255,.65); font-size:16px; line-height:1.6; }
+
+  /* SIGNATURE */
+  #signature{ background:var(--black); }
+  .card-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:24px; }
+  .drink-card{ position:relative; border-radius:22px; overflow:hidden; border:1px solid rgba(255,255,255,.08); background:#0d0d0d; cursor:pointer; transition:transform .45s cubic-bezier(.2,.7,.2,1), border-color .45s ease; }
+  .drink-card:hover{ transform:translateY(-10px); border-color:var(--red); }
+  .drink-media{ position:relative; height:300px; overflow:hidden; }
+  .drink-media .sheen{ position:absolute; inset:0; background:radial-gradient(120% 80% at 30% 12%, rgba(255,255,255,.42), transparent 46%); mix-blend-mode:screen; pointer-events:none; }
+  .drink-media .shade{ position:absolute; inset:0; background:linear-gradient(180deg, rgba(0,0,0,.12) 0%, transparent 34%, rgba(0,0,0,.62) 100%); pointer-events:none; }
+  .drink-tag{ position:absolute; top:18px; left:18px; background:rgba(5,5,5,.82); color:var(--gold); font-family:var(--util); font-size:11px; font-weight:600; letter-spacing:.14em; text-transform:uppercase; padding:7px 13px; border-radius:100px; }
+  .drink-price{ position:absolute; bottom:16px; right:18px; font-family:var(--anton); font-size:30px; color:#fff; text-shadow:0 2px 12px rgba(0,0,0,.5); }
+  .drink-body{ padding:26px 24px 28px; }
+  .drink-body h3{ font-family:var(--anton); font-weight:400; font-size:24px; text-transform:uppercase; letter-spacing:.005em; line-height:1.05; }
+  .drink-body p{ color:rgba(255,255,255,.6); font-size:14.5px; line-height:1.55; margin-top:12px; }
+  .drink-order{ display:inline-flex; align-items:center; gap:8px; margin-top:20px; color:var(--red); font-size:13px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; }
+
+  /* CUSTOMIZER */
+  #customizer{ background:linear-gradient(180deg,#0a0a0a,#050505); border-top:1px solid rgba(255,255,255,.06); }
+  .cust-head{ text-align:center; margin-bottom:60px; }
+  .cust-grid{ display:grid; grid-template-columns:minmax(260px,0.85fr) 1.15fr; gap:56px; align-items:center; }
+  .cup-stage{ position:relative; display:flex; justify-content:center; align-items:center; min-height:440px; }
+  .cup-glow{ position:absolute; width:320px; height:320px; border-radius:50%; background:radial-gradient(circle, rgba(220,12,28,.28), transparent 68%); filter:blur(10px); }
+  .cup{ position:relative; width:230px; height:352px; animation:bob 5s ease-in-out infinite; }
+  .cup .straw{ position:absolute; left:63%; top:-42px; width:15px; height:172px; background:var(--red); border-radius:9px; transform:rotate(9deg); z-index:6; box-shadow:inset -4px 0 rgba(0,0,0,.25); }
+  .cup .lid{ position:absolute; top:24px; left:-7px; right:-7px; height:28px; background:linear-gradient(#ffffff,#e6e6e6); border-radius:12px 12px 5px 5px; z-index:5; border:1px solid #d5d5d5; }
+  .cup .rim{ position:absolute; top:48px; left:-3px; right:-3px; height:12px; background:#eaeaea; z-index:5; border-radius:2px; }
+  .cup .body{ position:absolute; top:56px; left:0; right:0; bottom:0; overflow:hidden; clip-path:polygon(7% 0,93% 0,83% 100%,17% 100%); background:rgba(255,255,255,.14); border:1px solid rgba(255,255,255,.22); }
+  .cup .liquid{ position:absolute; left:0; right:0; bottom:0; height:84%; transition:background .5s ease; }
+  .cup .liquid .top{ position:absolute; top:0; left:0; right:0; height:14px; background:rgba(255,255,255,.28); }
+  .cup .pudding{ position:absolute; left:0; right:0; bottom:0; height:26%; background:linear-gradient(180deg,#F4C430,#E8A317); border-top:2px solid rgba(255,255,255,.35); }
+  .cup .highlight{ position:absolute; top:0; bottom:0; left:14%; width:20px; background:linear-gradient(90deg, rgba(255,255,255,.4), transparent); z-index:3; }
+  .pearl{ position:absolute; border-radius:50%; box-shadow:inset -2px -2px rgba(0,0,0,.25); }
+  .icecube{ position:absolute; width:26px; height:26px; background:rgba(255,255,255,.5); border:1px solid rgba(255,255,255,.7); border-radius:5px; }
+
+  .panel{ background:#0d0d0d; border:1px solid rgba(255,255,255,.08); border-radius:26px; padding:34px 34px 30px; }
+  .field{ margin-bottom:26px; }
+  .field-label{ font-family:var(--util); font-size:12px; font-weight:600; letter-spacing:.2em; color:rgba(255,255,255,.5); text-transform:uppercase; margin-bottom:14px; }
+  .base-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
+  .base-btn{ display:flex; flex-direction:column; align-items:center; justify-content:center; padding:14px 8px; border-radius:14px; cursor:pointer; font-size:13px; font-weight:700; text-align:center; line-height:1.2; border:1.5px solid rgba(255,255,255,.12); background:#111; color:rgba(255,255,255,.7); transition:all .2s ease; }
+  .base-btn .swatch{ display:block; width:20px; height:20px; border-radius:50%; margin:0 auto 8px; border:1px solid rgba(255,255,255,.4); }
+  .base-btn.on{ border-color:var(--red); background:rgba(220,12,28,.12); color:#fff; }
+  .pill-row{ display:flex; gap:8px; flex-wrap:wrap; }
+  .pill{ flex:1; min-width:56px; padding:11px 6px; border-radius:100px; cursor:pointer; font-size:13px; font-weight:700; border:1.5px solid rgba(255,255,255,.12); background:#111; color:rgba(255,255,255,.65); transition:all .2s ease; }
+  .pill.on{ border-color:var(--red); background:var(--red); color:#fff; }
+  .top-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:10px; }
+  .top-btn{ display:flex; align-items:center; gap:10px; padding:13px 15px; border-radius:12px; cursor:pointer; font-size:13.5px; font-weight:600; text-align:left; border:1.5px solid rgba(255,255,255,.12); background:#111; color:rgba(255,255,255,.65); transition:all .2s ease; }
+  .top-btn .dot{ flex:none; width:16px; height:16px; border-radius:5px; border:1.5px solid rgba(255,255,255,.25); background:transparent; transition:all .2s ease; }
+  .top-btn.on{ border-color:var(--red); background:rgba(220,12,28,.1); color:#fff; }
+  .top-btn.on .dot{ border-color:var(--red); background:var(--red); }
+  .cust-total{ display:flex; align-items:center; justify-content:space-between; gap:16px; padding-top:24px; border-top:1px solid rgba(255,255,255,.1); }
+  .cust-total .sum{ font-size:13px; color:rgba(255,255,255,.5); }
+  .cust-total .amt{ font-family:var(--anton); font-weight:400; font-size:34px; color:#fff; line-height:1; margin-top:4px; }
+  .cust-total .btn{ padding:15px 26px; font-size:14px; white-space:nowrap; }
+
+  /* COMBOS */
+  #combos{ background:var(--black); border-top:1px solid rgba(255,255,255,.06); overflow:hidden; padding:110px 0 120px; }
+  .ghost-word{ position:absolute; font-family:var(--anton); line-height:.8; pointer-events:none; user-select:none; }
+  .combo-rail{ display:flex; gap:22px; overflow-x:auto; scroll-snap-type:x mandatory; scroll-behavior:smooth; -webkit-overflow-scrolling:touch; padding:6px max(40px, calc((100vw - 1180px) / 2)); scrollbar-width:none; }
+  .combo-rail::-webkit-scrollbar{ display:none; }
+  .combo-card{ flex:0 0 auto; width:min(88vw, 820px); scroll-snap-align:center; border-radius:22px; overflow:hidden; border:1px solid rgba(255,255,255,.1); background:#151515; box-shadow:0 24px 60px rgba(0,0,0,.5); position:relative; display:block; transition:border-color .3s ease; }
+  .combo-card:hover{ border-color:var(--red); }
+  .combo-card img{ width:100%; height:auto; display:block; }
+  .combo-badge{ position:absolute; bottom:16px; right:16px; background:var(--red); color:#fff; font-family:var(--util); font-size:12px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; padding:9px 16px; border-radius:100px; box-shadow:0 8px 22px rgba(220,12,28,.45); }
+  .combo-arrow{ position:absolute; top:50%; transform:translateY(-50%); width:52px; height:52px; border-radius:50%; border:none; background:rgba(5,5,5,.72); color:#fff; font-size:26px; line-height:1; cursor:pointer; display:flex; align-items:center; justify-content:center; backdrop-filter:blur(8px); box-shadow:0 8px 24px rgba(0,0,0,.4); transition:background .2s ease, transform .2s ease; z-index:4; }
+  .combo-arrow:hover{ background:var(--red); }
+  .combo-arrow.prev{ left:24px; } .combo-arrow.next{ right:24px; }
+  .combo-arrow.prev:hover{ transform:translateY(-50%) scale(1.08); } .combo-arrow.next:hover{ transform:translateY(-50%) scale(1.08); }
+  .combo-dots{ display:flex; justify-content:center; gap:10px; margin-top:32px; }
+  .combo-dot{ width:10px; height:10px; border-radius:100px; border:none; cursor:pointer; padding:0; background:rgba(255,255,255,.25); transition:all .3s ease; }
+  .combo-dot.on{ width:28px; background:var(--red); }
+
+  /* MENU */
+  #menu{ background:var(--cream); color:var(--black); }
+  #menu .h2{ color:var(--black); }
+  #menu .eyebrow{ color:var(--red); }
+  .menu-tabs{ display:flex; gap:10px; flex-wrap:wrap; margin-bottom:34px; }
+  .menu-tab{ padding:11px 20px; border-radius:100px; cursor:pointer; font-size:13.5px; font-weight:700; letter-spacing:.02em; border:1.5px solid rgba(5,5,5,.15); background:transparent; color:var(--black); transition:all .2s ease; }
+  .menu-tab.on{ border-color:var(--black); background:var(--black); color:#fff; }
+  .menu-grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:14px; }
+  .menu-item{ display:flex; align-items:center; justify-content:space-between; gap:16px; background:#fff; border:1px solid rgba(5,5,5,.08); border-radius:14px; padding:18px 20px; transition:border-color .25s ease, transform .25s ease; }
+  .menu-item:hover{ border-color:var(--red); transform:translateY(-3px); }
+  .menu-item .name{ display:flex; align-items:center; gap:8px; font-weight:700; font-size:15.5px; color:var(--black); line-height:1.25; }
+  .menu-item .star{ color:var(--gold); font-size:13px; }
+  .menu-item .sub{ font-size:12.5px; color:rgba(5,5,5,.5); margin-top:3px; }
+  .menu-item .price{ font-family:var(--anton); font-weight:400; font-size:20px; color:var(--red); white-space:nowrap; }
+  .menu-note{ margin-top:24px; font-size:12.5px; color:rgba(5,5,5,.45); }
+
+  /* STORY */
+  #story{ background:var(--black); overflow:hidden; padding:130px 40px; }
+  .story-grid{ display:grid; grid-template-columns:1fr 1fr; gap:70px; align-items:center; }
+  .story-grid p{ color:rgba(255,255,255,.72); font-size:17px; line-height:1.7; margin-bottom:20px; }
+  .story-grid p.sub{ color:rgba(255,255,255,.6); font-size:15.5px; }
+  .story-stats{ display:flex; gap:44px; margin-top:40px; flex-wrap:wrap; }
+  .story-stats .n{ font-family:var(--anton); font-weight:400; font-size:44px; color:var(--red); line-height:1; }
+  .story-stats .l{ font-size:13px; color:rgba(255,255,255,.55); margin-top:6px; }
+  .story-logo-wrap{ position:relative; display:flex; justify-content:center; }
+  .story-logo-glow{ position:absolute; inset:8% 12%; background:radial-gradient(circle, rgba(220,12,28,.32), transparent 66%); filter:blur(16px); }
+  .story-logo-card{ position:relative; background:var(--cream); border-radius:28px; padding:50px; display:flex; align-items:center; justify-content:center; box-shadow:0 40px 90px rgba(0,0,0,.55); border:1px solid rgba(255,255,255,.08); }
+  .story-logo-card img{ width:min(340px,60vw); height:auto; display:block; animation:floatY 5s ease-in-out infinite; }
+
+  /* REVIEWS */
+  #reviews{ background:linear-gradient(180deg,#0a0a0a,#050505); padding:110px 40px; }
+  .rev-head{ text-align:center; margin-bottom:52px; }
+  .rev-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:22px; }
+  .rev-card{ background:#0d0d0d; border:1px solid rgba(255,255,255,.08); border-radius:20px; padding:30px 28px; transition:border-color .3s ease, transform .3s ease; }
+  .rev-card:hover{ border-color:var(--red); transform:translateY(-6px); }
+  .rev-stars{ color:var(--gold); font-size:16px; letter-spacing:.14em; margin-bottom:16px; }
+  .rev-card p{ font-size:16px; line-height:1.6; color:rgba(255,255,255,.85); }
+  .rev-person{ display:flex; align-items:center; gap:12px; margin-top:24px; }
+  .rev-av{ width:40px; height:40px; border-radius:50%; background:var(--red); display:flex; align-items:center; justify-content:center; font-family:var(--anton); font-weight:400; font-size:18px; }
+
+  /* LOCATIONS */
+  #locations{ background:var(--black); border-top:1px solid rgba(255,255,255,.06); }
+  .loc-grid{ display:grid; grid-template-columns:1fr 1.1fr; gap:36px; align-items:stretch; }
+  .loc-list{ display:flex; flex-direction:column; gap:18px; }
+  .loc-card{ background:#0d0d0d; border:1px solid rgba(255,255,255,.09); border-radius:20px; padding:28px; transition:border-color .3s ease; }
+  .loc-card:hover{ border-color:var(--red); }
+  .loc-card .row{ display:flex; align-items:center; justify-content:space-between; gap:12px; }
+  .loc-card h3{ font-family:var(--anton); font-weight:400; font-size:24px; text-transform:uppercase; }
+  .badge{ font-size:10px; font-weight:800; letter-spacing:.1em; text-transform:uppercase; padding:5px 11px; border-radius:100px; }
+  .badge-red{ background:rgba(220,12,28,.15); color:var(--red); border:1px solid rgba(220,12,28,.4); }
+  .badge-gold{ background:rgba(219,166,50,.14); color:var(--gold); border:1px solid rgba(219,166,50,.4); }
+  .loc-card .addr{ color:rgba(255,255,255,.65); font-size:15px; line-height:1.6; margin-top:12px; }
+  .loc-meta{ display:flex; gap:22px; margin-top:16px; flex-wrap:wrap; }
+  .loc-meta .k{ font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:rgba(255,255,255,.4); }
+  .loc-meta .v{ font-size:14px; font-weight:600; margin-top:3px; }
+  .loc-actions{ display:flex; gap:12px; margin-top:22px; }
+  .loc-actions .btn{ flex:1; text-align:center; justify-content:center; padding:12px 16px; font-size:13px; }
+  .loc-actions .btn-call{ background:transparent; color:#fff; border:1.5px solid rgba(255,255,255,.3); }
+  .loc-actions .btn-call:hover{ background:#fff; color:var(--black); border-color:#fff; }
+  .map{ position:relative; border-radius:22px; overflow:hidden; min-height:440px; border:1px solid rgba(255,255,255,.09); background:#0a0a0a; background-image:repeating-linear-gradient(0deg, rgba(255,255,255,.05) 0 1px, transparent 1px 46px), repeating-linear-gradient(90deg, rgba(255,255,255,.05) 0 1px, transparent 1px 46px); }
+  .map .road1{ position:absolute; top:22%; left:0; right:0; height:16px; background:rgba(255,255,255,.06); transform:rotate(-3deg); }
+  .map .road2{ position:absolute; top:58%; left:0; right:0; height:22px; background:rgba(255,255,255,.08); }
+  .map .road3{ position:absolute; top:0; bottom:0; left:34%; width:18px; background:rgba(255,255,255,.06); transform:rotate(4deg); }
+  .map .road4{ position:absolute; top:0; bottom:0; left:70%; width:14px; background:rgba(220,12,28,.14); }
+  .map .pin{ position:absolute; display:flex; flex-direction:column; align-items:center; gap:6px; }
+  .map .pin .tag{ font-size:11px; font-weight:800; letter-spacing:.06em; text-transform:uppercase; padding:6px 12px; border-radius:100px; white-space:nowrap; }
+  .map .pin1{ top:40%; left:30%; animation:floatY 3s ease-in-out infinite; }
+  .map .pin1 .tag{ background:var(--red); color:#fff; box-shadow:0 8px 22px rgba(220,12,28,.5); }
+  .map .pin1 .dot{ width:16px; height:16px; background:var(--red); border:3px solid #fff; border-radius:50%; box-shadow:0 0 0 6px rgba(220,12,28,.25); }
+  .map .pin2{ top:66%; left:62%; animation:floatY 3.6s ease-in-out .4s infinite; }
+  .map .pin2 .tag{ background:var(--black); color:var(--gold); border:1px solid rgba(219,166,50,.5); }
+  .map .pin2 .dot{ width:14px; height:14px; background:var(--gold); border:3px solid #fff; border-radius:50%; box-shadow:0 0 0 6px rgba(219,166,50,.22); }
+  .map .legend{ position:absolute; bottom:16px; left:16px; font-family:var(--util); font-size:10px; letter-spacing:.24em; text-transform:uppercase; color:rgba(255,255,255,.35); }
+
+  /* FAQ */
+  #faq{ background:var(--cream); color:var(--black); padding:110px 40px; }
+  #faq .wrap{ max-width:900px; }
+  #faq .h2{ color:var(--black); }
+  #faq .eyebrow{ color:var(--red); }
+  .faq-head{ text-align:center; margin-bottom:48px; }
+  .faq-list{ display:flex; flex-direction:column; gap:12px; }
+  .faq-item{ background:#fff; border:1px solid rgba(5,5,5,.08); border-radius:16px; overflow:hidden; }
+  .faq-q{ width:100%; display:flex; align-items:center; justify-content:space-between; gap:16px; padding:22px 26px; background:transparent; border:none; cursor:pointer; text-align:left; font-size:17px; font-weight:700; color:var(--black); }
+  .faq-icon{ flex:none; width:30px; height:30px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:22px; background:var(--cream); color:var(--red); transition:all .3s ease; }
+  .faq-a{ max-height:0; overflow:hidden; transition:max-height .4s ease; }
+  .faq-a p{ padding:0 26px 24px; color:rgba(5,5,5,.65); font-size:15.5px; line-height:1.65; }
+  .faq-item.open .faq-icon{ background:var(--red); color:#fff; transform:rotate(45deg); }
+
+  /* CTA */
+  #cta{ background:var(--red); overflow:hidden; padding:96px 40px; }
+  .cta-inner{ max-width:1000px; margin:0 auto; text-align:center; position:relative; }
+  .cta-inner h2{ font-family:var(--anton); font-weight:400; font-size:clamp(38px,6vw,80px); line-height:.98; text-transform:uppercase; }
+  .cta-inner p{ font-size:18px; color:rgba(255,255,255,.9); margin-top:18px; max-width:520px; margin-left:auto; margin-right:auto; }
+  .cta-actions{ display:flex; gap:16px; justify-content:center; flex-wrap:wrap; margin-top:34px; }
+  .cta-actions .btn{ padding:17px 34px; font-size:15px; }
+  .btn-white{ background:#fff; color:var(--black); } .btn-white:hover{ color:var(--black); transform:translateY(-3px); }
+
+  /* FOOTER */
+  footer{ background:var(--black); padding:72px 40px 34px; border-top:1px solid rgba(255,255,255,.08); }
+  .footer-grid{ display:grid; grid-template-columns:1.4fr 1fr 1fr 1fr; gap:40px; }
+  .footer-logo{ height:72px; width:auto; display:block; background:var(--cream); padding:10px 14px; border-radius:14px; }
+  .footer-grid p{ color:rgba(255,255,255,.55); font-size:14px; line-height:1.6; margin-top:20px; max-width:280px; }
+  .footer-col-title{ font-family:var(--util); font-size:12px; letter-spacing:.2em; text-transform:uppercase; color:var(--gold); margin-bottom:18px; }
+  .footer-links{ display:flex; flex-direction:column; gap:12px; }
+  .footer-links a{ color:rgba(255,255,255,.7); font-size:14px; }
+  .footer-links a:hover{ color:#fff; }
+  .footer-col p{ color:rgba(255,255,255,.7); font-size:14px; line-height:1.7; margin-top:0; }
+  .footer-bar{ display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap; margin-top:52px; padding-top:26px; border-top:1px solid rgba(255,255,255,.08); }
+  .footer-bar div{ font-size:12.5px; color:rgba(255,255,255,.4); }
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width:900px){
+    nav{ padding:14px 20px; }
+    .nav-links{ display:none; }
+    .nav-cta{ display:none; }
+    .nav-burger{ display:flex; }
+    .mobile-menu{ display:flex; }
+    .wrap{ padding:0 20px; }
+    .sec{ padding:76px 20px; }
+    .sec-head{ margin-bottom:40px; }
+    .hero-inner{ padding:120px 20px 60px; }
+    .cust-grid{ grid-template-columns:1fr; gap:36px; }
+    .cust-head{ margin-bottom:40px; }
+    .story-grid{ grid-template-columns:1fr; gap:44px; }
+    #story{ padding:80px 20px; }
+    .story-logo-wrap{ order:-1; }
+    #reviews,#faq,#cta{ padding:76px 20px; }
+    .loc-grid{ grid-template-columns:1fr; gap:22px; }
+    .map{ min-height:320px; }
+    #combos{ padding:76px 0 84px; }
+    .combo-arrow{ display:none; }
+    .combo-rail{ padding:6px 20px; }
+    .footer-grid{ grid-template-columns:1fr 1fr; gap:32px; }
+    footer{ padding:56px 20px 28px; }
+  }
+  @media (max-width:560px){
+    .base-grid{ grid-template-columns:repeat(3,1fr); }
+    .top-grid{ grid-template-columns:1fr; }
+    .cust-total{ flex-direction:column; align-items:flex-start; }
+    .cust-total .btn{ width:100%; }
+    .hero-actions{ gap:12px; }
+    .hero-actions .btn{ flex:1; justify-content:center; }
+    .footer-grid{ grid-template-columns:1fr; gap:28px; }
+    .marquee-track > div{ font-size:18px; gap:24px; padding-right:24px; }
+    .cust-total .amt{ font-size:30px; }
+  }
+  @media (prefers-reduced-motion:reduce){
+    *{ animation:none !important; scroll-behavior:auto !important; }
+    [data-reveal]{ opacity:1; transform:none; transition:none; }
+  }
 </style>
-</helmet>
+</head>
+<body>
 
-<div style="position:relative; background:#050505;">
+<!-- NAV -->
+<nav id="nav">
+  <a href="#top" aria-label="Runcha home"><img class="nav-logo" src="assets/runcha-logo.png" alt="Runcha" /></a>
+  <div class="nav-links">
+    <a href="#signature">Drinks</a>
+    <a href="#customizer">Build a Cup</a>
+    <a href="#combos">Combos</a>
+    <a href="#menu">Menu</a>
+    <a href="#story">Story</a>
+    <a href="#locations">Locations</a>
+  </div>
+  <a class="btn btn-red nav-cta" href="https://www.foodpanda.com.bd/restaurant/aen9/runcha-club-aen9" target="_blank" rel="noopener">Order Online</a>
+  <button class="nav-burger" id="burger" aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></button>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#signature">Drinks</a>
+  <a href="#customizer">Build a Cup</a>
+  <a href="#combos">Combos</a>
+  <a href="#menu">Menu</a>
+  <a href="#story">Story</a>
+  <a href="#locations">Locations</a>
+  <a href="https://www.foodpanda.com.bd/restaurant/aen9/runcha-club-aen9" target="_blank" rel="noopener" style="color:var(--red);font-weight:800;">Order on Foodpanda →</a>
+</div>
 
-  <!-- NAV -->
-  <nav ref="{{ navRef }}" style="position:fixed; top:0; left:0; right:0; z-index:100; display:flex; align-items:center; justify-content:space-between; padding:16px 40px; border-bottom:1px solid rgba(255,255,255,0); background:rgba(5,5,5,0); transition:background .4s ease, border-color .4s ease, backdrop-filter .4s ease;">
-    <a href="#top" style="display:flex; align-items:center; gap:12px;">
-      <img src="assets/runcha-logo.png" alt="Runcha" style="height:48px; width:auto; display:block; filter:drop-shadow(0 2px 8px rgba(0,0,0,.5));" />
-    </a>
-    <div style="display:none; align-items:center; gap:38px;" class="nav-links">
-      <a href="#signature" style="color:#fff; font-size:14px; font-weight:600; letter-spacing:.02em;">Drinks</a>
-      <a href="#customizer" style="color:#fff; font-size:14px; font-weight:600; letter-spacing:.02em;">Build a Cup</a>
-      <a href="#combos" style="color:#fff; font-size:14px; font-weight:600; letter-spacing:.02em;">Combos</a>
-      <a href="#menu" style="color:#fff; font-size:14px; font-weight:600; letter-spacing:.02em;">Menu</a>
-      <a href="#story" style="color:#fff; font-size:14px; font-weight:600; letter-spacing:.02em;">Story</a>
-      <a href="#locations" style="color:#fff; font-size:14px; font-weight:600; letter-spacing:.02em;">Locations</a>
-    </div>
-    <a href="https://www.foodpanda.com.bd/restaurant/aen9/runcha-club-aen9" target="_blank" rel="noopener" style="background:#DC0C1C; color:#fff; padding:11px 22px; border-radius:100px; font-size:13px; font-weight:800; letter-spacing:.06em; text-transform:uppercase; transition:transform .2s ease, box-shadow .2s ease;" style-hover="background:#DC0C1C; color:#fff; transform:translateY(-2px); box-shadow:0 10px 26px rgba(220,12,28,.5);">Order Online</a>
-  </nav>
-
-  <!-- HERO -->
-  <header id="top" style="position:relative; min-height:100vh; display:flex; align-items:center; overflow:hidden;">
-    <div style="position:absolute; inset:0; overflow:hidden; z-index:0;">
-      <video ref="{{ heroVideoRef }}" autoplay muted loop playsinline poster="assets/favicon.png" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; transform:scale(1.1); will-change:transform;">
-        <source src="assets/runcha-hero.webm" type="video/webm" />
-      </video>
-      <div style="position:absolute; inset:0; background:linear-gradient(90deg, rgba(5,5,5,.92) 0%, rgba(5,5,5,.72) 34%, rgba(5,5,5,.28) 68%, rgba(5,5,5,.55) 100%);"></div>
-      <div style="position:absolute; inset:0; background:linear-gradient(180deg, rgba(5,5,5,.55) 0%, rgba(5,5,5,0) 22%, rgba(5,5,5,0) 60%, rgba(5,5,5,.9) 100%);"></div>
-    </div>
-    <div ref="{{ heroTextRef }}" style="position:relative; z-index:2; max-width:1280px; width:100%; margin:0 auto; padding:120px 40px 40px; will-change:transform;">
-      <div style="max-width:760px;">
-        <div style="display:inline-flex; align-items:center; gap:10px; opacity:0; animation:heroIn .8s .1s cubic-bezier(.2,.7,.2,1) forwards;">
-          <span style="width:34px; height:2px; background:#DC0C1C; display:block;"></span>
-          <span style="font-family:'Space Grotesk',sans-serif; font-size:13px; font-weight:600; letter-spacing:.32em; color:#DBA632; text-transform:uppercase;">Runcha Club • Uttara, Dhaka</span>
-        </div>
-        <h1 style="font-family:'Anton',sans-serif; font-weight:400; font-size:clamp(52px,8vw,112px); line-height:.92; letter-spacing:-.01em; text-transform:uppercase; margin-top:22px; opacity:0; animation:heroIn .9s .22s cubic-bezier(.2,.7,.2,1) forwards;">
-          Bold Flavours,<br /><span style="color:#DC0C1C;">Beautifully</span> Brewed.
-        </h1>
-        <p style="font-size:clamp(16px,1.6vw,20px); line-height:1.55; color:rgba(255,255,255,.82); max-width:520px; margin-top:26px; opacity:0; animation:heroIn .9s .34s cubic-bezier(.2,.7,.2,1) forwards;">
-          From creamy brown-sugar boba to comforting Chinese classics — discover a vibrant dining experience in the heart of Uttara.
-        </p>
-        <div style="display:flex; flex-wrap:wrap; gap:16px; margin-top:38px; opacity:0; animation:heroIn .9s .46s cubic-bezier(.2,.7,.2,1) forwards;">
-          <a href="#menu" style="display:inline-flex; align-items:center; gap:10px; background:#DC0C1C; color:#fff; padding:17px 34px; border-radius:100px; font-size:15px; font-weight:800; letter-spacing:.04em; text-transform:uppercase; transition:transform .2s ease, box-shadow .2s ease;" style-hover="background:#DC0C1C; color:#fff; transform:translateY(-3px); box-shadow:0 16px 40px rgba(220,12,28,.5);">Explore Menu →</a>
-          <a href="#locations" style="display:inline-flex; align-items:center; gap:10px; background:transparent; color:#fff; padding:17px 34px; border-radius:100px; font-size:15px; font-weight:800; letter-spacing:.04em; text-transform:uppercase; border:2px solid rgba(255,255,255,.4); transition:all .2s ease;" style-hover="background:#fff; color:#050505; border-color:#fff; transform:translateY(-3px);">Find a Store</a>
-        </div>
-        <div style="display:flex; align-items:center; gap:26px; margin-top:44px; opacity:0; animation:heroIn .9s .58s cubic-bezier(.2,.7,.2,1) forwards;">
-          <div style="display:flex; align-items:center; gap:8px;">
-            <span style="font-family:'Anton',sans-serif; font-size:26px; color:#DBA632;">4.8</span>
-            <div style="line-height:1.1;"><div style="color:#DBA632; font-size:13px; letter-spacing:.12em;">★★★★★</div><div style="font-size:11px; color:rgba(255,255,255,.55); letter-spacing:.04em;">100+ Foodpanda reviews</div></div>
-          </div>
-          <div style="width:1px; height:34px; background:rgba(255,255,255,.18);"></div>
-          <div style="line-height:1.2;"><div style="font-family:'Anton',sans-serif; font-size:22px;">11–10</div><div style="font-size:11px; color:rgba(255,255,255,.55); letter-spacing:.04em;">Open daily</div></div>
-        </div>
+<!-- HERO -->
+<header class="hero" id="top">
+  <div class="hero-bg">
+    <video id="heroVideo" autoplay muted loop playsinline poster="assets/favicon.png">
+      <source src="assets/runcha-hero.webm" type="video/webm" />
+    </video>
+    <div class="hero-shade-x"></div>
+    <div class="hero-shade-y"></div>
+  </div>
+  <div class="hero-inner" id="heroText">
+    <div class="hero-copy">
+      <div class="hero-kicker"><span class="line"></span><span class="txt">Runcha Club • Uttara, Dhaka</span></div>
+      <h1 class="hero-title">Bold Flavours,<br /><span class="red">Beautifully</span> Brewed.</h1>
+      <p class="hero-sub">From creamy brown-sugar boba to comforting Chinese classics — discover a vibrant dining experience in the heart of Uttara.</p>
+      <div class="hero-actions">
+        <a class="btn btn-red" href="#menu">Explore Menu →</a>
+        <a class="btn btn-ghost" href="#locations">Find a Store</a>
       </div>
-    </div>
-    <div style="position:absolute; bottom:26px; left:50%; transform:translateX(-50%); z-index:2; display:flex; flex-direction:column; align-items:center; gap:8px; animation:floatY 2.4s ease-in-out infinite;">
-      <span style="font-family:'Space Grotesk',sans-serif; font-size:10px; letter-spacing:.3em; color:rgba(255,255,255,.5); text-transform:uppercase;">Scroll</span>
-      <span style="width:1px; height:30px; background:linear-gradient(#DC0C1C, transparent);"></span>
-    </div>
-  </header>
-
-  <!-- MARQUEE -->
-  <div style="background:#DC0C1C; overflow:hidden; padding:16px 0; border-top:2px solid #050505; border-bottom:2px solid #050505;">
-    <div style="display:flex; width:max-content; animation:marqueeX 26s linear infinite;">
-      <div style="display:flex; align-items:center; gap:34px; padding-right:34px; font-family:'Anton',sans-serif; font-size:22px; letter-spacing:.02em; text-transform:uppercase; white-space:nowrap;">
-        <span>Since 1989, China</span><span style="color:#DBA632;">✦</span><span>Premium Bubble Tea</span><span style="color:#DBA632;">✦</span><span>Authentic Chinese Flavours</span><span style="color:#DBA632;">✦</span><span>Crafted in Uttara</span><span style="color:#DBA632;">✦</span>
-        <span>Since 1989, China</span><span style="color:#DBA632;">✦</span><span>Premium Bubble Tea</span><span style="color:#DBA632;">✦</span><span>Authentic Chinese Flavours</span><span style="color:#DBA632;">✦</span><span>Crafted in Uttara</span><span style="color:#DBA632;">✦</span>
+      <div class="hero-stats">
+        <div style="display:flex; align-items:center; gap:8px;">
+          <span style="font-family:var(--anton); font-size:26px; color:var(--gold);">4.8</span>
+          <div style="line-height:1.1;"><div style="color:var(--gold); font-size:13px; letter-spacing:.12em;">★★★★★</div><div style="font-size:11px; color:rgba(255,255,255,.55); letter-spacing:.04em;">100+ Foodpanda reviews</div></div>
+        </div>
+        <div style="width:1px; height:34px; background:rgba(255,255,255,.18);"></div>
+        <div style="line-height:1.2;"><div style="font-family:var(--anton); font-size:22px;">11–10</div><div style="font-size:11px; color:rgba(255,255,255,.55); letter-spacing:.04em;">Open daily</div></div>
       </div>
     </div>
   </div>
+  <div class="hero-scroll"><span class="lbl">Scroll</span><span class="bar"></span></div>
+</header>
 
-  <!-- SIGNATURE SHOWCASE -->
-  <section id="signature" style="position:relative; padding:120px 40px; background:#050505;">
-    <div style="max-width:1280px; margin:0 auto;">
-      <div data-reveal style="display:flex; align-items:flex-end; justify-content:space-between; gap:30px; flex-wrap:wrap; margin-bottom:56px;">
-        <div>
-          <div style="font-family:'Space Grotesk',sans-serif; font-size:13px; font-weight:600; letter-spacing:.3em; color:#DBA632; text-transform:uppercase; margin-bottom:14px;">01 — Signature Pours</div>
-          <h2 style="font-family:'Anton',sans-serif; font-size:clamp(38px,5.5vw,72px); line-height:.96; text-transform:uppercase; letter-spacing:-.01em;">The Crowd<br /><span style="color:#DC0C1C;">Favourites</span></h2>
-        </div>
-        <p style="max-width:360px; color:rgba(255,255,255,.65); font-size:16px; line-height:1.6;">Chewy pearls, real fruit and matcha whisked fresh. These are the cups Uttara keeps coming back for.</p>
-      </div>
-      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:24px;">
-        <sc-for list="{{ drinksShowcase }}" as="d" hint-placeholder-count="3">
-          <div data-reveal style="position:relative; border-radius:22px; overflow:hidden; border:1px solid rgba(255,255,255,.08); background:#0d0d0d; cursor:pointer; transition:transform .45s cubic-bezier(.2,.7,.2,1), border-color .45s ease;" style-hover="transform:translateY(-10px); border-color:#DC0C1C;">
-            <div style="position:relative; height:300px; overflow:hidden; background:{{ d.liquid }};">
-              <image-slot id="{{ d.slotId }}" shape="rect" fit="cover" placeholder="{{ d.placeholder }}" style="position:absolute; inset:0; width:100%; height:100%;"></image-slot>
-              <div style="position:absolute; inset:0; background:linear-gradient(180deg, rgba(0,0,0,.15) 0%, transparent 34%, rgba(0,0,0,.6) 100%); pointer-events:none;"></div>
-              <span style="position:absolute; top:18px; left:18px; background:rgba(5,5,5,.82); color:#DBA632; font-family:'Space Grotesk',sans-serif; font-size:11px; font-weight:600; letter-spacing:.14em; text-transform:uppercase; padding:7px 13px; border-radius:100px; pointer-events:none;">{{ d.tag }}</span>
-              <div style="position:absolute; bottom:16px; right:18px; font-family:'Anton',sans-serif; font-size:30px; color:#fff; text-shadow:0 2px 12px rgba(0,0,0,.5); pointer-events:none;">Tk {{ d.price }}</div>
-            </div>
-            <div style="padding:26px 24px 28px;">
-              <h3 style="font-family:'Anton',sans-serif; font-size:24px; text-transform:uppercase; letter-spacing:.005em; line-height:1.05;">{{ d.name }}</h3>
-              <p style="color:rgba(255,255,255,.6); font-size:14.5px; line-height:1.55; margin-top:12px;">{{ d.desc }}</p>
-              <div style="display:inline-flex; align-items:center; gap:8px; margin-top:20px; color:#DC0C1C; font-size:13px; font-weight:800; letter-spacing:.08em; text-transform:uppercase;">Order this <span>→</span></div>
-            </div>
-          </div>
-        </sc-for>
-      </div>
-    </div>
-  </section>
-
-  <!-- CUSTOMIZER -->
-  <section id="customizer" style="position:relative; padding:120px 40px; background:linear-gradient(180deg,#0a0a0a,#050505); border-top:1px solid rgba(255,255,255,.06);">
-    <div style="max-width:1280px; margin:0 auto;">
-      <div data-reveal style="text-align:center; margin-bottom:60px;">
-        <div style="font-family:'Space Grotesk',sans-serif; font-size:13px; font-weight:600; letter-spacing:.3em; color:#DBA632; text-transform:uppercase; margin-bottom:14px;">02 — Make It Yours</div>
-        <h2 style="font-family:'Anton',sans-serif; font-size:clamp(38px,5.5vw,72px); line-height:.96; text-transform:uppercase;">Build Your <span style="color:#DC0C1C;">Cup</span></h2>
-      </div>
-      <div style="display:grid; grid-template-columns:minmax(260px,0.85fr) 1.15fr; gap:56px; align-items:center;" class="cust-grid">
-        <!-- LIVE CUP -->
-        <div data-reveal style="position:relative; display:flex; justify-content:center; align-items:center; min-height:440px;">
-          <div style="position:absolute; width:320px; height:320px; border-radius:50%; background:radial-gradient(circle, rgba(220,12,28,.28), transparent 68%); filter:blur(10px);"></div>
-          <div style="position:relative; width:230px; height:352px; animation:bob 5s ease-in-out infinite;">
-            <div style="position:absolute; left:63%; top:-42px; width:15px; height:172px; background:#DC0C1C; border-radius:9px; transform:rotate(9deg); z-index:6; box-shadow:inset -4px 0 rgba(0,0,0,.25);"></div>
-            <div style="position:absolute; top:24px; left:-7px; right:-7px; height:28px; background:linear-gradient(#ffffff,#e6e6e6); border-radius:12px 12px 5px 5px; z-index:5; border:1px solid #d5d5d5;"></div>
-            <div style="position:absolute; top:48px; left:-3px; right:-3px; height:12px; background:#eaeaea; z-index:5; border-radius:2px;"></div>
-            <div style="position:absolute; top:56px; left:0; right:0; bottom:0; overflow:hidden; clip-path:polygon(7% 0,93% 0,83% 100%,17% 100%); background:rgba(255,255,255,.14); border:1px solid rgba(255,255,255,.22);">
-              <div style="position:absolute; left:0; right:0; bottom:0; height:84%; background:{{ cupColor }}; transition:background .5s ease;">
-                <div style="position:absolute; top:0; left:0; right:0; height:14px; background:rgba(255,255,255,.28);"></div>
-                <sc-if value="{{ hasPudding }}" hint-placeholder-val="{{ false }}">
-                  <div style="position:absolute; left:0; right:0; bottom:0; height:26%; background:linear-gradient(180deg,#F4C430,#E8A317); border-top:2px solid rgba(255,255,255,.35);"></div>
-                </sc-if>
-                <sc-for list="{{ iceCubes }}" as="c" hint-placeholder-count="0">
-                  <div style="position:absolute; left:{{ c.left }}%; top:{{ c.top }}%; width:26px; height:26px; background:rgba(255,255,255,.5); border:1px solid rgba(255,255,255,.7); border-radius:5px; transform:rotate({{ c.rot }}deg);"></div>
-                </sc-for>
-                <sc-for list="{{ pearls }}" as="p" hint-placeholder-count="0">
-                  <div style="position:absolute; left:{{ p.left }}%; bottom:{{ p.bottom }}px; width:{{ p.size }}px; height:{{ p.size }}px; background:{{ p.color }}; border-radius:50%; box-shadow:inset -2px -2px rgba(0,0,0,.25);"></div>
-                </sc-for>
-              </div>
-              <div style="position:absolute; top:0; bottom:0; left:14%; width:20px; background:linear-gradient(90deg, rgba(255,255,255,.4), transparent); z-index:3;"></div>
-            </div>
-          </div>
-        </div>
-        <!-- CONTROLS -->
-        <div data-reveal style="background:#0d0d0d; border:1px solid rgba(255,255,255,.08); border-radius:26px; padding:34px 34px 30px;">
-          <div style="margin-bottom:26px;">
-            <div style="font-family:'Space Grotesk',sans-serif; font-size:12px; font-weight:600; letter-spacing:.2em; color:rgba(255,255,255,.5); text-transform:uppercase; margin-bottom:14px;">Base Drink</div>
-            <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:10px;">
-              <sc-for list="{{ drinks }}" as="d" hint-placeholder-count="3">
-                <button onClick="{{ d.select }}" style="{{ d.btnStyle }}">
-                  <span style="display:block; width:20px; height:20px; border-radius:50%; background:{{ d.liquid }}; margin:0 auto 8px; border:1px solid rgba(255,255,255,.4);"></span>
-                  {{ d.short }}
-                </button>
-              </sc-for>
-            </div>
-          </div>
-          <div style="margin-bottom:26px;">
-            <div style="font-family:'Space Grotesk',sans-serif; font-size:12px; font-weight:600; letter-spacing:.2em; color:rgba(255,255,255,.5); text-transform:uppercase; margin-bottom:14px;">Sweetness</div>
-            <div style="display:flex; gap:8px;">
-              <sc-for list="{{ sweetLevels }}" as="s" hint-placeholder-count="5">
-                <button onClick="{{ s.select }}" style="{{ s.style }}">{{ s.label }}</button>
-              </sc-for>
-            </div>
-          </div>
-          <div style="margin-bottom:26px;">
-            <div style="font-family:'Space Grotesk',sans-serif; font-size:12px; font-weight:600; letter-spacing:.2em; color:rgba(255,255,255,.5); text-transform:uppercase; margin-bottom:14px;">Ice Level</div>
-            <div style="display:flex; gap:8px; flex-wrap:wrap;">
-              <sc-for list="{{ iceLevels }}" as="i" hint-placeholder-count="4">
-                <button onClick="{{ i.select }}" style="{{ i.style }}">{{ i.label }}</button>
-              </sc-for>
-            </div>
-          </div>
-          <div style="margin-bottom:30px;">
-            <div style="font-family:'Space Grotesk',sans-serif; font-size:12px; font-weight:600; letter-spacing:.2em; color:rgba(255,255,255,.5); text-transform:uppercase; margin-bottom:14px;">Toppings</div>
-            <div style="display:grid; grid-template-columns:repeat(2,1fr); gap:10px;">
-              <sc-for list="{{ toppings }}" as="t" hint-placeholder-count="4">
-                <button onClick="{{ t.toggle }}" style="{{ t.style }}">
-                  <span style="{{ t.dot }}"></span>{{ t.label }}
-                </button>
-              </sc-for>
-            </div>
-          </div>
-          <div style="display:flex; align-items:center; justify-content:space-between; gap:16px; padding-top:24px; border-top:1px solid rgba(255,255,255,.1);">
-            <div>
-              <div style="font-size:13px; color:rgba(255,255,255,.5);">{{ summary }}</div>
-              <div style="font-family:'Anton',sans-serif; font-size:34px; color:#fff; line-height:1; margin-top:4px;">Tk {{ total }}</div>
-            </div>
-            <a href="https://www.foodpanda.com.bd/restaurant/aen9/runcha-club-aen9" target="_blank" rel="noopener" style="background:#DC0C1C; color:#fff; padding:15px 26px; border-radius:100px; font-size:14px; font-weight:800; letter-spacing:.04em; text-transform:uppercase; white-space:nowrap; transition:transform .2s ease, box-shadow .2s ease;" style-hover="background:#DC0C1C; color:#fff; transform:translateY(-2px); box-shadow:0 12px 30px rgba(220,12,28,.5);">Add to Order</a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- COMBOS -->
-  <section id="combos" style="position:relative; padding:110px 0 120px; background:#050505; border-top:1px solid rgba(255,255,255,.06); overflow:hidden;">
-    <div style="position:absolute; top:-40px; right:-30px; font-family:'Anton',sans-serif; font-size:clamp(120px,20vw,300px); color:rgba(220,12,28,.05); line-height:.8; pointer-events:none; user-select:none;">DEALS</div>
-    <div style="max-width:1280px; margin:0 auto; padding:0 40px; position:relative;">
-      <div data-reveal style="display:flex; align-items:flex-end; justify-content:space-between; gap:30px; flex-wrap:wrap; margin-bottom:44px;">
-        <div>
-          <div style="font-family:'Space Grotesk',sans-serif; font-size:13px; font-weight:600; letter-spacing:.3em; color:#DBA632; text-transform:uppercase; margin-bottom:14px;">03 — Limited-Time</div>
-          <h2 style="font-family:'Anton',sans-serif; font-size:clamp(38px,5.5vw,72px); line-height:.96; text-transform:uppercase; letter-spacing:-.01em;">Combo<br /><span style="color:#DC0C1C;">Offers</span></h2>
-        </div>
-        <p style="max-width:360px; color:rgba(255,255,255,.65); font-size:16px; line-height:1.6;">Two signature drinks, one unbeatable price. Swipe through this season's bundle deals — while they last.</p>
-      </div>
-    </div>
-
-    <div data-reveal style="position:relative;">
-      <div ref="{{ comboRailRef }}" data-rail style="display:flex; gap:22px; overflow-x:auto; scroll-snap-type:x mandatory; scroll-behavior:smooth; -webkit-overflow-scrolling:touch; padding:6px max(40px, calc((100vw - 1180px) / 2)); scrollbar-width:none;">
-        <sc-for list="{{ combos }}" as="c" hint-placeholder-count="3">
-          <a href="https://www.foodpanda.com.bd/restaurant/aen9/runcha-club-aen9" target="_blank" rel="noopener" style="flex:0 0 auto; width:min(88vw, 820px); scroll-snap-align:center; border-radius:22px; overflow:hidden; border:1px solid rgba(255,255,255,.1); background:#151515; box-shadow:0 24px 60px rgba(0,0,0,.5); position:relative; display:block; transition:border-color .3s ease;" style-hover="border-color:#DC0C1C;">
-            <img src="{{ c.src }}" alt="{{ c.alt }}" loading="lazy" style="width:100%; height:auto; display:block;" />
-            <span style="position:absolute; bottom:16px; right:16px; background:#DC0C1C; color:#fff; font-family:'Space Grotesk',sans-serif; font-size:12px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; padding:9px 16px; border-radius:100px; box-shadow:0 8px 22px rgba(220,12,28,.45);">Order Now →</span>
-          </a>
-        </sc-for>
-      </div>
-
-      <button onClick="{{ comboPrev }}" aria-label="Previous combo" style="position:absolute; top:50%; left:24px; transform:translateY(-50%); width:52px; height:52px; border-radius:50%; border:none; background:rgba(5,5,5,.72); color:#fff; font-size:26px; line-height:1; cursor:pointer; display:flex; align-items:center; justify-content:center; backdrop-filter:blur(8px); box-shadow:0 8px 24px rgba(0,0,0,.4); transition:background .2s ease, transform .2s ease;" style-hover="background:#DC0C1C; transform:translateY(-50%) scale(1.08);">‹</button>
-      <button onClick="{{ comboNext }}" aria-label="Next combo" style="position:absolute; top:50%; right:24px; transform:translateY(-50%); width:52px; height:52px; border-radius:50%; border:none; background:rgba(5,5,5,.72); color:#fff; font-size:26px; line-height:1; cursor:pointer; display:flex; align-items:center; justify-content:center; backdrop-filter:blur(8px); box-shadow:0 8px 24px rgba(0,0,0,.4); transition:background .2s ease, transform .2s ease;" style-hover="background:#DC0C1C; transform:translateY(-50%) scale(1.08);">›</button>
-    </div>
-
-    <div style="display:flex; justify-content:center; gap:10px; margin-top:32px;">
-      <sc-for list="{{ comboDots }}" as="d" hint-placeholder-count="3">
-        <button onClick="{{ d.go }}" aria-label="Go to combo" style="{{ d.style }}"></button>
-      </sc-for>
-    </div>
-  </section>
-
-  <!-- MENU PREVIEW -->
-  <section id="menu" style="position:relative; padding:120px 40px; background:#FFF3F4; color:#050505;">
-    <div style="max-width:1280px; margin:0 auto;">
-      <div data-reveal style="display:flex; align-items:flex-end; justify-content:space-between; gap:24px; flex-wrap:wrap; margin-bottom:44px;">
-        <div>
-          <div style="font-family:'Space Grotesk',sans-serif; font-size:13px; font-weight:600; letter-spacing:.3em; color:#DC0C1C; text-transform:uppercase; margin-bottom:14px;">03 — The Menu</div>
-          <h2 style="font-family:'Anton',sans-serif; font-size:clamp(38px,5.5vw,72px); line-height:.96; text-transform:uppercase; color:#050505;">Eat, Drink &<br /><span style="color:#DC0C1C;">Repeat</span></h2>
-        </div>
-        <a href="https://www.foodpanda.com.bd/restaurant/aen9/runcha-club-aen9" target="_blank" rel="noopener" style="display:inline-flex; align-items:center; gap:10px; background:#050505; color:#fff; padding:15px 28px; border-radius:100px; font-size:14px; font-weight:800; letter-spacing:.04em; text-transform:uppercase; transition:transform .2s ease;" style-hover="background:#050505; color:#fff; transform:translateY(-2px);">Full Menu →</a>
-      </div>
-      <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:34px;">
-        <sc-for list="{{ menuCats }}" as="c" hint-placeholder-count="6">
-          <button onClick="{{ c.select }}" style="{{ c.style }}">{{ c.label }}</button>
-        </sc-for>
-      </div>
-      <div style="display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:14px;">
-        <sc-for list="{{ menuItems }}" as="m" hint-placeholder-count="6">
-          <div style="display:flex; align-items:center; justify-content:space-between; gap:16px; background:#fff; border:1px solid rgba(5,5,5,.08); border-radius:14px; padding:18px 20px; transition:border-color .25s ease, transform .25s ease;" style-hover="border-color:#DC0C1C; transform:translateY(-3px);">
-            <div style="min-width:0;">
-              <div style="display:flex; align-items:center; gap:8px;">
-                <sc-if value="{{ m.star }}" hint-placeholder-val="{{ false }}"><span style="color:#DBA632; font-size:13px;">★</span></sc-if>
-                <span style="font-weight:700; font-size:15.5px; color:#050505; line-height:1.25;">{{ m.name }}</span>
-              </div>
-              <div style="font-size:12.5px; color:rgba(5,5,5,.5); margin-top:3px;">{{ m.sub }}</div>
-            </div>
-            <div style="font-family:'Anton',sans-serif; font-size:20px; color:#DC0C1C; white-space:nowrap;">Tk {{ m.price }}</div>
-          </div>
-        </sc-for>
-      </div>
-      <p style="margin-top:24px; font-size:12.5px; color:rgba(5,5,5,.45);">Regular prices shown from the Runcha Club Foodpanda listing. Sizes, availability and promotions may vary.</p>
-    </div>
-  </section>
-
-  <!-- BRAND STORY -->
-  <section id="story" style="position:relative; padding:130px 40px; background:#050505; overflow:hidden;">
-    <div style="position:absolute; top:-60px; right:-40px; font-family:'Anton',sans-serif; font-size:clamp(180px,26vw,420px); color:rgba(220,12,28,.06); line-height:.8; pointer-events:none; user-select:none;">R</div>
-    <div style="max-width:1280px; margin:0 auto; position:relative;">
-      <div style="display:grid; grid-template-columns:1fr 1fr; gap:70px; align-items:center;" class="story-grid">
-        <div data-reveal>
-          <div style="font-family:'Space Grotesk',sans-serif; font-size:13px; font-weight:600; letter-spacing:.3em; color:#DBA632; text-transform:uppercase; margin-bottom:18px;">04 — Our Heritage</div>
-          <h2 style="font-family:'Anton',sans-serif; font-size:clamp(36px,4.6vw,60px); line-height:1; text-transform:uppercase; margin-bottom:26px;">Chinese Tea<br />Tradition, <span style="color:#DC0C1C;">Reimagined.</span></h2>
-          <p style="color:rgba(255,255,255,.72); font-size:17px; line-height:1.7; margin-bottom:20px;">Runcha brings Chinese tea tradition and modern innovation together in a colourful dining experience. Explore signature milk teas, refreshing fruit blends, comforting rice and noodle dishes, grilled favourites and distinctive Chinese specialties — all served in a relaxed Uttara setting.</p>
-          <p style="color:rgba(255,255,255,.6); font-size:15.5px; line-height:1.7;">Every cup is built on premium ingredients and an automated, hygienic preparation process designed for consistency and minimal hand contact — so your favourite tastes exactly right, every single time.</p>
-          <div style="display:flex; gap:44px; margin-top:40px; flex-wrap:wrap;">
-            <div><div style="font-family:'Anton',sans-serif; font-size:44px; color:#DC0C1C; line-height:1;">4.8★</div><div style="font-size:13px; color:rgba(255,255,255,.55); margin-top:6px;">Foodpanda rating</div></div>
-            <div><div style="font-family:'Anton',sans-serif; font-size:44px; color:#DC0C1C; line-height:1;">50+</div><div style="font-size:13px; color:rgba(255,255,255,.55); margin-top:6px;">Drinks & dishes</div></div>
-            <div><div style="font-family:'Anton',sans-serif; font-size:44px; color:#DC0C1C; line-height:1;">2</div><div style="font-size:13px; color:rgba(255,255,255,.55); margin-top:6px;">Uttara branches</div></div>
-          </div>
-        </div>
-        <div data-reveal style="position:relative; display:flex; justify-content:center;">
-          <div style="position:absolute; inset:8% 12%; background:radial-gradient(circle, rgba(220,12,28,.32), transparent 66%); filter:blur(16px);"></div>
-          <div style="position:relative; background:#FFF3F4; border-radius:28px; padding:50px; display:flex; align-items:center; justify-content:center; box-shadow:0 40px 90px rgba(0,0,0,.55); border:1px solid rgba(255,255,255,.08);">
-            <img src="assets/runcha-logo.png" alt="Runcha — Since 1989, China" style="width:min(340px,60vw); height:auto; display:block; animation:floatY 5s ease-in-out infinite;" />
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- REVIEWS -->
-  <section style="position:relative; padding:110px 40px; background:linear-gradient(180deg,#0a0a0a,#050505);">
-    <div style="max-width:1280px; margin:0 auto;">
-      <div data-reveal style="text-align:center; margin-bottom:52px;">
-        <div style="font-family:'Space Grotesk',sans-serif; font-size:13px; font-weight:600; letter-spacing:.3em; color:#DBA632; text-transform:uppercase; margin-bottom:14px;">05 — Word on the Street</div>
-        <h2 style="font-family:'Anton',sans-serif; font-size:clamp(34px,5vw,64px); line-height:.98; text-transform:uppercase;">Loved in <span style="color:#DC0C1C;">Uttara</span></h2>
-      </div>
-      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:22px;">
-        <sc-for list="{{ reviews }}" as="r" hint-placeholder-count="3">
-          <div data-reveal style="background:#0d0d0d; border:1px solid rgba(255,255,255,.08); border-radius:20px; padding:30px 28px; transition:border-color .3s ease, transform .3s ease;" style-hover="border-color:#DC0C1C; transform:translateY(-6px);">
-            <div style="color:#DBA632; font-size:16px; letter-spacing:.14em; margin-bottom:16px;">★★★★★</div>
-            <p style="font-size:16px; line-height:1.6; color:rgba(255,255,255,.85);">“{{ r.text }}”</p>
-            <div style="display:flex; align-items:center; gap:12px; margin-top:24px;">
-              <div style="width:40px; height:40px; border-radius:50%; background:#DC0C1C; display:flex; align-items:center; justify-content:center; font-family:'Anton',sans-serif; font-size:18px;">{{ r.initial }}</div>
-              <div><div style="font-weight:700; font-size:14px;">{{ r.name }}</div><div style="font-size:12px; color:rgba(255,255,255,.45);">{{ r.meta }}</div></div>
-            </div>
-          </div>
-        </sc-for>
-      </div>
-    </div>
-  </section>
-
-  <!-- LOCATIONS -->
-  <section id="locations" style="position:relative; padding:120px 40px; background:#050505; border-top:1px solid rgba(255,255,255,.06);">
-    <div style="max-width:1280px; margin:0 auto;">
-      <div data-reveal style="margin-bottom:52px;">
-        <div style="font-family:'Space Grotesk',sans-serif; font-size:13px; font-weight:600; letter-spacing:.3em; color:#DBA632; text-transform:uppercase; margin-bottom:14px;">06 — Find Us</div>
-        <h2 style="font-family:'Anton',sans-serif; font-size:clamp(38px,5.5vw,72px); line-height:.96; text-transform:uppercase;">Two Spots In <span style="color:#DC0C1C;">Uttara</span></h2>
-      </div>
-      <div style="display:grid; grid-template-columns:1fr 1.1fr; gap:36px; align-items:stretch;" class="loc-grid">
-        <div style="display:flex; flex-direction:column; gap:18px;">
-          <sc-for list="{{ stores }}" as="s" hint-placeholder-count="2">
-            <div data-reveal style="background:#0d0d0d; border:1px solid rgba(255,255,255,.09); border-radius:20px; padding:28px 28px; transition:border-color .3s ease;" style-hover="border-color:#DC0C1C;">
-              <div style="display:flex; align-items:center; justify-content:space-between; gap:12px;">
-                <h3 style="font-family:'Anton',sans-serif; font-size:24px; text-transform:uppercase;">{{ s.name }}</h3>
-                <span style="{{ s.badgeStyle }}">{{ s.badge }}</span>
-              </div>
-              <p style="color:rgba(255,255,255,.65); font-size:15px; line-height:1.6; margin-top:12px;">{{ s.address }}</p>
-              <div style="display:flex; gap:22px; margin-top:16px; flex-wrap:wrap;">
-                <div><div style="font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:rgba(255,255,255,.4);">Hours</div><div style="font-size:14px; font-weight:600; margin-top:3px;">{{ s.hours }}</div></div>
-                <div><div style="font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:rgba(255,255,255,.4);">Serving</div><div style="font-size:14px; font-weight:600; margin-top:3px;">{{ s.serving }}</div></div>
-              </div>
-              <div style="display:flex; gap:12px; margin-top:22px;">
-                <a href="{{ s.map }}" target="_blank" rel="noopener" style="flex:1; text-align:center; background:#DC0C1C; color:#fff; padding:12px 16px; border-radius:100px; font-size:13px; font-weight:800; letter-spacing:.04em; text-transform:uppercase; transition:transform .2s ease;" style-hover="background:#DC0C1C; color:#fff; transform:translateY(-2px);">Directions</a>
-                <a href="tel:01781999999" style="flex:1; text-align:center; background:transparent; color:#fff; border:1.5px solid rgba(255,255,255,.3); padding:12px 16px; border-radius:100px; font-size:13px; font-weight:800; letter-spacing:.04em; text-transform:uppercase; transition:all .2s ease;" style-hover="background:#fff; color:#050505; border-color:#fff;">Call</a>
-              </div>
-            </div>
-          </sc-for>
-        </div>
-        <!-- stylized map -->
-        <div data-reveal style="position:relative; border-radius:22px; overflow:hidden; min-height:440px; border:1px solid rgba(255,255,255,.09); background:#0a0a0a; background-image:repeating-linear-gradient(0deg, rgba(255,255,255,.05) 0 1px, transparent 1px 46px), repeating-linear-gradient(90deg, rgba(255,255,255,.05) 0 1px, transparent 1px 46px);">
-          <div style="position:absolute; top:22%; left:0; right:0; height:16px; background:rgba(255,255,255,.06); transform:rotate(-3deg);"></div>
-          <div style="position:absolute; top:58%; left:0; right:0; height:22px; background:rgba(255,255,255,.08);"></div>
-          <div style="position:absolute; top:0; bottom:0; left:34%; width:18px; background:rgba(255,255,255,.06); transform:rotate(4deg);"></div>
-          <div style="position:absolute; top:0; bottom:0; left:70%; width:14px; background:rgba(220,12,28,.14);"></div>
-          <div style="position:absolute; top:40%; left:30%; display:flex; flex-direction:column; align-items:center; gap:6px; animation:floatY 3s ease-in-out infinite;">
-            <div style="background:#DC0C1C; color:#fff; font-size:11px; font-weight:800; letter-spacing:.06em; text-transform:uppercase; padding:6px 12px; border-radius:100px; white-space:nowrap; box-shadow:0 8px 22px rgba(220,12,28,.5);">Runcha Club</div>
-            <div style="width:16px; height:16px; background:#DC0C1C; border:3px solid #fff; border-radius:50%; box-shadow:0 0 0 6px rgba(220,12,28,.25);"></div>
-          </div>
-          <div style="position:absolute; top:66%; left:62%; display:flex; flex-direction:column; align-items:center; gap:6px; animation:floatY 3.6s ease-in-out .4s infinite;">
-            <div style="background:#050505; color:#DBA632; font-size:11px; font-weight:800; letter-spacing:.06em; text-transform:uppercase; padding:6px 12px; border-radius:100px; white-space:nowrap; border:1px solid rgba(219,166,50,.5);">Centrepoint</div>
-            <div style="width:14px; height:14px; background:#DBA632; border:3px solid #fff; border-radius:50%; box-shadow:0 0 0 6px rgba(219,166,50,.22);"></div>
-          </div>
-          <div style="position:absolute; bottom:16px; left:16px; font-family:'Space Grotesk',sans-serif; font-size:10px; letter-spacing:.24em; text-transform:uppercase; color:rgba(255,255,255,.35);">Sector 4 · Uttara · Dhaka</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- FAQ -->
-  <section style="position:relative; padding:110px 40px; background:#FFF3F4; color:#050505;">
-    <div style="max-width:900px; margin:0 auto;">
-      <div data-reveal style="text-align:center; margin-bottom:48px;">
-        <div style="font-family:'Space Grotesk',sans-serif; font-size:13px; font-weight:600; letter-spacing:.3em; color:#DC0C1C; text-transform:uppercase; margin-bottom:14px;">07 — Good To Know</div>
-        <h2 style="font-family:'Anton',sans-serif; font-size:clamp(34px,5vw,60px); line-height:.98; text-transform:uppercase; color:#050505;">Questions, <span style="color:#DC0C1C;">Answered</span></h2>
-      </div>
-      <div data-reveal style="display:flex; flex-direction:column; gap:12px;">
-        <sc-for list="{{ faqs }}" as="f" hint-placeholder-count="5">
-          <div style="background:#fff; border:1px solid rgba(5,5,5,.08); border-radius:16px; overflow:hidden;">
-            <button onClick="{{ f.toggle }}" style="width:100%; display:flex; align-items:center; justify-content:space-between; gap:16px; padding:22px 26px; background:transparent; border:none; cursor:pointer; text-align:left; font-family:'Manrope',sans-serif; font-size:17px; font-weight:700; color:#050505;">
-              <span>{{ f.q }}</span>
-              <span style="{{ f.iconStyle }}">+</span>
-            </button>
-            <div style="{{ f.answerStyle }}">
-              <p style="padding:0 26px 24px; color:rgba(5,5,5,.65); font-size:15.5px; line-height:1.65;">{{ f.a }}</p>
-            </div>
-          </div>
-        </sc-for>
-      </div>
-    </div>
-  </section>
-
-  <!-- CTA BANNER -->
-  <section style="position:relative; padding:96px 40px; background:#DC0C1C; overflow:hidden;">
-    <div style="position:absolute; top:-40px; left:-30px; font-family:'Anton',sans-serif; font-size:clamp(120px,20vw,300px); color:rgba(0,0,0,.08); line-height:.8; pointer-events:none;">RUNCHA</div>
-    <div data-reveal style="max-width:1000px; margin:0 auto; text-align:center; position:relative;">
-      <h2 style="font-family:'Anton',sans-serif; font-size:clamp(38px,6vw,80px); line-height:.98; text-transform:uppercase;">Thirsty Yet?</h2>
-      <p style="font-size:18px; color:rgba(255,255,255,.9); margin-top:18px; max-width:520px; margin-left:auto; margin-right:auto;">Order your favourite on Foodpanda, or pull up to the Club in Sector 4 — we open at 11.</p>
-      <div style="display:flex; gap:16px; justify-content:center; flex-wrap:wrap; margin-top:34px;">
-        <a href="https://www.foodpanda.com.bd/restaurant/aen9/runcha-club-aen9" target="_blank" rel="noopener" style="background:#050505; color:#fff; padding:17px 34px; border-radius:100px; font-size:15px; font-weight:800; letter-spacing:.04em; text-transform:uppercase; transition:transform .2s ease;" style-hover="background:#050505; color:#fff; transform:translateY(-3px);">Order on Foodpanda</a>
-        <a href="#locations" style="background:#fff; color:#050505; padding:17px 34px; border-radius:100px; font-size:15px; font-weight:800; letter-spacing:.04em; text-transform:uppercase; transition:transform .2s ease;" style-hover="background:#fff; color:#050505; transform:translateY(-3px);">Get Directions</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- FOOTER -->
-  <footer style="background:#050505; padding:72px 40px 34px; border-top:1px solid rgba(255,255,255,.08);">
-    <div style="max-width:1280px; margin:0 auto;">
-      <div style="display:grid; grid-template-columns:1.4fr 1fr 1fr 1fr; gap:40px;" class="footer-grid">
-        <div>
-          <img src="assets/runcha-logo.png" alt="Runcha" style="height:72px; width:auto; display:block; background:#FFF3F4; padding:10px 14px; border-radius:14px;" />
-          <p style="color:rgba(255,255,255,.55); font-size:14px; line-height:1.6; margin-top:20px; max-width:280px;">Premium bubble tea and authentic Chinese flavours, crafted fresh in Uttara. Since 1989, China.</p>
-        </div>
-        <div>
-          <div style="font-family:'Space Grotesk',sans-serif; font-size:12px; letter-spacing:.2em; text-transform:uppercase; color:#DBA632; margin-bottom:18px;">Explore</div>
-          <div style="display:flex; flex-direction:column; gap:12px;">
-            <a href="#signature" style="color:rgba(255,255,255,.7); font-size:14px;">Signature Drinks</a>
-            <a href="#customizer" style="color:rgba(255,255,255,.7); font-size:14px;">Build a Cup</a>
-            <a href="#menu" style="color:rgba(255,255,255,.7); font-size:14px;">Menu</a>
-            <a href="#story" style="color:rgba(255,255,255,.7); font-size:14px;">Our Story</a>
-          </div>
-        </div>
-        <div>
-          <div style="font-family:'Space Grotesk',sans-serif; font-size:12px; letter-spacing:.2em; text-transform:uppercase; color:#DBA632; margin-bottom:18px;">Visit</div>
-          <p style="color:rgba(255,255,255,.7); font-size:14px; line-height:1.7;">House 38, Road 11,<br />Sector 4, Uttara, Dhaka</p>
-          <p style="color:rgba(255,255,255,.7); font-size:14px; line-height:1.7; margin-top:12px;">Open daily · 11:00 AM – 10:00 PM</p>
-          <a href="tel:01781999999" style="display:inline-block; color:#fff; font-size:14px; font-weight:700; margin-top:12px;">01781-999999</a>
-        </div>
-        <div>
-          <div style="font-family:'Space Grotesk',sans-serif; font-size:12px; letter-spacing:.2em; text-transform:uppercase; color:#DBA632; margin-bottom:18px;">Connect</div>
-          <div style="display:flex; flex-direction:column; gap:12px;">
-            <a href="https://www.facebook.com/runchatea/" target="_blank" rel="noopener" style="color:rgba(255,255,255,.7); font-size:14px;">Facebook · @runchatea</a>
-            <a href="https://www.instagram.com/runcha.bd/" target="_blank" rel="noopener" style="color:rgba(255,255,255,.7); font-size:14px;">Instagram · @runcha.bd</a>
-            <a href="https://www.foodpanda.com.bd/restaurant/aen9/runcha-club-aen9" target="_blank" rel="noopener" style="color:rgba(255,255,255,.7); font-size:14px;">Order · Foodpanda</a>
-            <a href="mailto:hello@runcha.club" style="color:rgba(255,255,255,.7); font-size:14px;">Franchise enquiries</a>
-          </div>
-        </div>
-      </div>
-      <div style="display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap; margin-top:52px; padding-top:26px; border-top:1px solid rgba(255,255,255,.08);">
-        <div style="font-size:12.5px; color:rgba(255,255,255,.4);">© {{ year }} Runcha Club, Uttara. All rights reserved.</div>
-        <div style="font-size:12.5px; color:rgba(255,255,255,.4);">Bubble Tea · Chinese Kitchen · Barbecue · Desserts</div>
-      </div>
-    </div>
-  </footer>
-
+<!-- MARQUEE -->
+<div class="marquee">
+  <div class="marquee-track">
+    <div><span>Since 1989, China</span><span class="star">✦</span><span>Premium Bubble Tea</span><span class="star">✦</span><span>Authentic Chinese Flavours</span><span class="star">✦</span><span>Crafted in Uttara</span><span class="star">✦</span></div>
+    <div><span>Since 1989, China</span><span class="star">✦</span><span>Premium Bubble Tea</span><span class="star">✦</span><span>Authentic Chinese Flavours</span><span class="star">✦</span><span>Crafted in Uttara</span><span class="star">✦</span></div>
+  </div>
 </div>
-</x-dc>
-<script type="text/x-dc" data-dc-script>
-class Component extends DCLogic {
-  state = {
-    drink: 'boba',
-    sweet: 3,
-    ice: 2,
-    toppings: { boba: true, pudding: false, sago: false, jelly: false },
-    cat: 'Milk Tea',
-    faq: 0,
-    comboIndex: 0,
+
+<!-- SIGNATURE -->
+<section id="signature" class="sec">
+  <div class="wrap">
+    <div class="sec-head" data-reveal>
+      <div>
+        <div class="eyebrow">01 — Signature Pours</div>
+        <h2 class="h2">The Crowd<br /><span class="red">Favourites</span></h2>
+      </div>
+      <p class="sec-lede">Chewy pearls, real fruit and matcha whisked fresh. These are the cups Uttara keeps coming back for.</p>
+    </div>
+    <div class="card-grid" id="signatureGrid"></div>
+  </div>
+</section>
+
+<!-- CUSTOMIZER -->
+<section id="customizer" class="sec">
+  <div class="wrap">
+    <div class="cust-head" data-reveal>
+      <div class="eyebrow">02 — Make It Yours</div>
+      <h2 class="h2">Build Your <span class="red">Cup</span></h2>
+    </div>
+    <div class="cust-grid">
+      <div class="cup-stage" data-reveal>
+        <div class="cup-glow"></div>
+        <div class="cup">
+          <div class="straw"></div>
+          <div class="lid"></div>
+          <div class="rim"></div>
+          <div class="body">
+            <div class="liquid" id="cupLiquid">
+              <div class="top"></div>
+              <div class="pudding" id="cupPudding" style="display:none;"></div>
+              <div id="cupIce"></div>
+              <div id="cupPearls"></div>
+            </div>
+            <div class="highlight"></div>
+          </div>
+        </div>
+      </div>
+      <div class="panel" data-reveal>
+        <div class="field">
+          <div class="field-label">Base Drink</div>
+          <div class="base-grid" id="baseGrid"></div>
+        </div>
+        <div class="field">
+          <div class="field-label">Sweetness</div>
+          <div class="pill-row" id="sweetRow"></div>
+        </div>
+        <div class="field">
+          <div class="field-label">Ice Level</div>
+          <div class="pill-row" id="iceRow"></div>
+        </div>
+        <div class="field">
+          <div class="field-label">Toppings</div>
+          <div class="top-grid" id="topGrid"></div>
+        </div>
+        <div class="cust-total">
+          <div>
+            <div class="sum" id="custSummary"></div>
+            <div class="amt" id="custTotal">Tk 0</div>
+          </div>
+          <a class="btn btn-red" href="https://www.foodpanda.com.bd/restaurant/aen9/runcha-club-aen9" target="_blank" rel="noopener">Add to Order</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMBOS -->
+<section id="combos">
+  <div class="ghost-word" style="top:-40px; right:-30px; font-size:clamp(120px,20vw,300px); color:rgba(220,12,28,.05);">DEALS</div>
+  <div class="wrap" style="position:relative;">
+    <div class="sec-head" data-reveal style="margin-bottom:44px;">
+      <div>
+        <div class="eyebrow">03 — Limited-Time</div>
+        <h2 class="h2">Combo<br /><span class="red">Offers</span></h2>
+      </div>
+      <p class="sec-lede">Two signature drinks, one unbeatable price. Swipe through this season's bundle deals — while they last.</p>
+    </div>
+  </div>
+  <div data-reveal style="position:relative;">
+    <div class="combo-rail" id="comboRail"></div>
+    <button class="combo-arrow prev" id="comboPrev" aria-label="Previous combo">‹</button>
+    <button class="combo-arrow next" id="comboNext" aria-label="Next combo">›</button>
+  </div>
+  <div class="combo-dots" id="comboDots"></div>
+</section>
+
+<!-- MENU -->
+<section id="menu" class="sec">
+  <div class="wrap">
+    <div class="sec-head" data-reveal style="margin-bottom:44px;">
+      <div>
+        <div class="eyebrow">03 — The Menu</div>
+        <h2 class="h2">Eat, Drink &amp;<br /><span class="red">Repeat</span></h2>
+      </div>
+      <a class="btn btn-dark" href="https://www.foodpanda.com.bd/restaurant/aen9/runcha-club-aen9" target="_blank" rel="noopener" style="padding:15px 28px; font-size:14px;">Full Menu →</a>
+    </div>
+    <div class="menu-tabs" id="menuTabs" data-reveal></div>
+    <div class="menu-grid" id="menuGrid"></div>
+    <p class="menu-note">Regular prices shown from the Runcha Club Foodpanda listing. Sizes, availability and promotions may vary.</p>
+  </div>
+</section>
+
+<!-- STORY -->
+<section id="story">
+  <div class="ghost-word" style="top:-60px; right:-40px; font-size:clamp(180px,26vw,420px); color:rgba(220,12,28,.06);">R</div>
+  <div class="wrap" style="position:relative;">
+    <div class="story-grid">
+      <div data-reveal>
+        <div class="eyebrow">04 — Our Heritage</div>
+        <h2 class="h2" style="font-size:clamp(36px,4.6vw,60px); line-height:1; margin-bottom:26px;">Chinese Tea<br />Tradition, <span class="red">Reimagined.</span></h2>
+        <p>Runcha brings Chinese tea tradition and modern innovation together in a colourful dining experience. Explore signature milk teas, refreshing fruit blends, comforting rice and noodle dishes, grilled favourites and distinctive Chinese specialties — all served in a relaxed Uttara setting.</p>
+        <p class="sub">Every cup is built on premium ingredients and an automated, hygienic preparation process designed for consistency and minimal hand contact — so your favourite tastes exactly right, every single time.</p>
+        <div class="story-stats">
+          <div><div class="n">4.8★</div><div class="l">Foodpanda rating</div></div>
+          <div><div class="n">50+</div><div class="l">Drinks &amp; dishes</div></div>
+          <div><div class="n">2</div><div class="l">Uttara branches</div></div>
+        </div>
+      </div>
+      <div class="story-logo-wrap" data-reveal>
+        <div class="story-logo-glow"></div>
+        <div class="story-logo-card"><img src="assets/runcha-logo.png" alt="Runcha — Since 1989, China" /></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section id="reviews">
+  <div class="wrap">
+    <div class="rev-head" data-reveal>
+      <div class="eyebrow">05 — Word on the Street</div>
+      <h2 class="h2" style="font-size:clamp(34px,5vw,64px);">Loved in <span class="red">Uttara</span></h2>
+    </div>
+    <div class="rev-grid" id="reviewGrid"></div>
+  </div>
+</section>
+
+<!-- LOCATIONS -->
+<section id="locations" class="sec">
+  <div class="wrap">
+    <div data-reveal style="margin-bottom:52px;">
+      <div class="eyebrow">06 — Find Us</div>
+      <h2 class="h2">Two Spots In <span class="red">Uttara</span></h2>
+    </div>
+    <div class="loc-grid">
+      <div class="loc-list" id="locList"></div>
+      <div class="map" data-reveal>
+        <div class="road1"></div><div class="road2"></div><div class="road3"></div><div class="road4"></div>
+        <div class="pin pin1"><div class="tag">Runcha Club</div><div class="dot"></div></div>
+        <div class="pin pin2"><div class="tag">Centrepoint</div><div class="dot"></div></div>
+        <div class="legend">Sector 4 · Uttara · Dhaka</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="wrap">
+    <div class="faq-head" data-reveal>
+      <div class="eyebrow">07 — Good To Know</div>
+      <h2 class="h2" style="font-size:clamp(34px,5vw,60px);">Questions, <span class="red">Answered</span></h2>
+    </div>
+    <div class="faq-list" id="faqList" data-reveal></div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="cta">
+  <div class="ghost-word" style="top:-40px; left:-30px; font-size:clamp(120px,20vw,300px); color:rgba(0,0,0,.08);">RUNCHA</div>
+  <div class="cta-inner" data-reveal>
+    <h2>Thirsty Yet?</h2>
+    <p>Order your favourite on Foodpanda, or pull up to the Club in Sector 4 — we open at 11.</p>
+    <div class="cta-actions">
+      <a class="btn btn-dark" href="https://www.foodpanda.com.bd/restaurant/aen9/runcha-club-aen9" target="_blank" rel="noopener">Order on Foodpanda</a>
+      <a class="btn btn-white" href="#locations">Get Directions</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <img class="footer-logo" src="assets/runcha-logo.png" alt="Runcha" />
+        <p>Premium bubble tea and authentic Chinese flavours, crafted fresh in Uttara. Since 1989, China.</p>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title">Explore</div>
+        <div class="footer-links">
+          <a href="#signature">Signature Drinks</a>
+          <a href="#customizer">Build a Cup</a>
+          <a href="#menu">Menu</a>
+          <a href="#story">Our Story</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title">Visit</div>
+        <p>House 38, Road 11,<br />Sector 4, Uttara, Dhaka</p>
+        <p style="margin-top:12px;">Open daily · 11:00 AM – 10:00 PM</p>
+        <a href="tel:01781999999" style="display:inline-block; color:#fff; font-size:14px; font-weight:700; margin-top:12px;">01781-999999</a>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title">Connect</div>
+        <div class="footer-links">
+          <a href="https://www.facebook.com/runchatea/" target="_blank" rel="noopener">Facebook · @runchatea</a>
+          <a href="https://www.instagram.com/runcha.bd/" target="_blank" rel="noopener">Instagram · @runcha.bd</a>
+          <a href="https://www.foodpanda.com.bd/restaurant/aen9/runcha-club-aen9" target="_blank" rel="noopener">Order · Foodpanda</a>
+          <a href="mailto:hello@runcha.club">Franchise enquiries</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bar">
+      <div>© <span id="year"></span> Runcha Club, Uttara. All rights reserved.</div>
+      <div>Bubble Tea · Chinese Kitchen · Barbecue · Desserts</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ---------- DATA ---------- */
+  var DRINKS = [
+    { id:'boba',   name:'Brown Sugar Boba Milk Tea', short:'Brown Sugar', tag:'Best Seller', desc:'Silky milk tea layered with warm brown-sugar syrup and chewy tapioca pearls.', liquid:'#C79A6E', base:290 },
+    { id:'matcha', name:'Matcha Milk Tea',           short:'Matcha',      tag:'Fan Pick',    desc:'Stone-ground Japanese matcha whisked into fresh milk for an earthy, creamy sip.', liquid:'#AFC98C', base:290 },
+    { id:'mango',  name:'Mango Pomelo Sago',         short:'Mango Sago',  tag:'Signature',   desc:'Ripe mango, juicy pomelo and springy sago in a bright, refreshing classic.', liquid:'#F2B33C', base:480 }
+  ];
+  var COMBOS = [
+    { src:'assets/combo-1.webp', alt:'Runcha combo offer — Matcha Milk Tea + Brown Sugar Boba Milk Tea, 540 Tk' },
+    { src:'assets/combo-2.webp', alt:'Runcha combo offer — Mango + Brown Sugar Boba, 540 Tk' },
+    { src:'assets/combo-3.webp', alt:'Runcha combo offer — bubble tea duo, 590 Tk' }
+  ];
+  var SWEET = ['0%','30%','50%','70%','100%'];
+  var ICE = [ {label:'No Ice',n:0}, {label:'Less',n:2}, {label:'Regular',n:4}, {label:'Extra',n:6} ];
+  var TOPS = [ {id:'boba',label:'Tapioca Boba'}, {id:'pudding',label:'Mango Pudding'}, {id:'sago',label:'Sago Pearls'}, {id:'jelly',label:'Grass Jelly'} ];
+  var MENU = {
+    'Milk Tea':[
+      {name:'Brown Sugar Boba Milk Tea', sub:'Regular · chewy pearls', price:290, star:true},
+      {name:'Matcha Milk Tea', sub:'Regular · stone-ground matcha', price:290},
+      {name:'Luxury Milk Tea', sub:'Regular · house special', price:380},
+      {name:'Mango Pudding Milk Tea', sub:'Regular · silky pudding', price:280, star:true},
+      {name:'Double Mix Boba Milk Tea', sub:'Regular · double pearls', price:330},
+      {name:'One Cup of Passion Fruit', sub:'Regular · tangy & bright', price:380}
+    ],
+    'Fruit & Lemon':[
+      {name:'Mango Pomelo Sago', sub:'Regular · signature', price:480},
+      {name:'Mango Lemon Tea', sub:'Large · zesty refresher', price:280, star:true},
+      {name:'Mango Lemon Tea', sub:'Regular', price:180}
+    ],
+    'Combos':[
+      {name:'Cake Milk Tea Combo', sub:'Drink + treat', price:590, star:true},
+      {name:'Mango Pudding Milk Tea Combo', sub:'Drink + treat', price:540, star:true},
+      {name:'Four-Person Drink Package', sub:'Share with friends', price:999},
+      {name:'Boba Milk Tea + Any Dessert', sub:'Perfect pairing', price:450}
+    ],
+    'Desserts':[
+      {name:'Mango Pudding', sub:'Chilled · silky', price:200},
+      {name:'Soft Ice Cream', sub:'Ask in-store', price:0}
+    ],
+    'Set Meals':[
+      {name:'Kung Pao Chicken with Rice', sub:'Chinese classic', price:680},
+      {name:'Braised Beef Brisket & Tomato Rice', sub:'Hearty bowl', price:980},
+      {name:'Home-Style Tofu Rice Bowl', sub:'Comfort food', price:680},
+      {name:'Diced Chicken with Beans & Rice', sub:'Savoury', price:480}
+    ],
+    'Barbecue':[
+      {name:'Beef Skewer', sub:'Char-grilled', price:150, star:true},
+      {name:'Grilled Chicken Wings', sub:'Smoky', price:200},
+      {name:'Cheesy Garlic Lobster', sub:'Premium', price:880},
+      {name:'Chongqing Grilled Fish', sub:'For the table', price:2980}
+    ]
   };
+  var REVIEWS = [
+    {text:'The Brown Sugar Boba is unreal — pearls perfectly chewy and not too sweet. My go-to in Uttara now.', name:'Nabila R.', initial:'N', meta:'Foodpanda · Verified'},
+    {text:'Cake Milk Tea and the beef skewers hit every time. Fast delivery and everything arrives fresh.', name:'Tanvir H.', initial:'T', meta:'Foodpanda · Verified'},
+    {text:'Mango Pudding Milk Tea is a must. Aesthetic cups, great flavour — feels premium for the price.', name:'Sadia K.', initial:'S', meta:'Foodpanda · Verified'}
+  ];
+  var STORES = [
+    {name:'Runcha Club', badge:'Flagship', badgeClass:'badge-red', address:'House 38, Road 11, Sector 4, Uttara, Dhaka', hours:'11 AM – 10 PM', serving:'Full menu', map:'https://maps.google.com/?q=Runcha+Club+Sector+4+Uttara+Dhaka'},
+    {name:'Runcha Centrepoint', badge:'Branch', badgeClass:'badge-gold', address:"Chef's Table, Centrepoint, 5th Floor, beside Airport, Dhaka–Mymensingh Road, Uttara", hours:'11 AM – 10 PM', serving:'Drinks & combos', map:'https://maps.google.com/?q=Centrepoint+Uttara+Dhaka'}
+  ];
+  var FAQ = [
+    {q:'What are your opening hours?', a:'Runcha Club is open daily from 11:00 AM to 10:00 PM for both dine-in and delivery. Last orders are taken shortly before closing.'},
+    {q:'Do you deliver? How do I order online?', a:'Yes — order through our Foodpanda listing for Runcha Club, Sector 4. Delivery hours run 11:00 AM to 10:00 PM daily.'},
+    {q:'Can I adjust sweetness and ice?', a:'Absolutely. Every signature drink can be customised for sweetness (0% to 100%), ice level and toppings like tapioca boba, mango pudding, sago and grass jelly.'},
+    {q:'Is there a second location?', a:'Yes. Beyond the Sector 4 flagship, you can find Runcha at Centrepoint (5th Floor, beside the airport) serving drinks, desserts and combos.'},
+    {q:'How do I get in touch or book for a group?', a:'Call the branch hotline at 01781-999999, or reach us on Facebook (@runchatea) and Instagram (@runcha.bd) for reservations and group bookings.'}
+  ];
+  var FOODPANDA = 'https://www.foodpanda.com.bd/restaurant/aen9/runcha-club-aen9';
 
-  constructor(props){
-    super(props);
-    this.navRef = React.createRef();
-    this.heroVideoRef = React.createRef();
-    this.heroTextRef = React.createRef();
-    this.comboRailRef = React.createRef();
-  }
+  function el(tag, cls, html){ var e=document.createElement(tag); if(cls) e.className=cls; if(html!=null) e.innerHTML=html; return e; }
+  function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
-  scrollCombo(dir){
-    const el = this.comboRailRef.current;
-    if (!el) return;
-    const card = el.children[0];
-    const step = card ? card.getBoundingClientRect().width + 22 : el.clientWidth * 0.9;
-    el.scrollBy({ left: dir * step, behavior: 'smooth' });
-  }
-
-  goCombo(i){
-    const el = this.comboRailRef.current;
-    if (!el) return;
-    const card = el.children[i];
-    if (!card) return;
-    const left = card.offsetLeft - (el.clientWidth - card.clientWidth) / 2;
-    el.scrollTo({ left, behavior: 'smooth' });
-  }
-
-  componentDidMount(){
-    // Force-mute hero video (React doesn't reliably honor the `muted` attribute)
-    const hv = this.heroVideoRef.current;
-    if (hv){ hv.muted = true; hv.defaultMuted = true; hv.volume = 0; const p = hv.play(); if (p && p.catch) p.catch(() => {}); }
-
-    const reveal = document.querySelectorAll('[data-reveal]');
-    reveal.forEach(el => {
-      el.style.opacity = '0';
-      el.style.transform = 'translateY(42px)';
-      el.style.transition = 'opacity .85s cubic-bezier(.2,.7,.2,1), transform .85s cubic-bezier(.2,.7,.2,1)';
+  /* ---------- SIGNATURE CARDS ---------- */
+  (function(){
+    var grid = document.getElementById('signatureGrid');
+    DRINKS.forEach(function(d){
+      var card = el('a','drink-card'); card.href = FOODPANDA; card.target='_blank'; card.rel='noopener';
+      card.setAttribute('data-reveal','');
+      card.innerHTML =
+        '<div class="drink-media" style="background:'+d.liquid+';">'+
+          '<div class="sheen"></div><div class="shade"></div>'+
+          '<span class="drink-tag">'+esc(d.tag)+'</span>'+
+          '<span class="drink-price">Tk '+d.base+'</span>'+
+        '</div>'+
+        '<div class="drink-body">'+
+          '<h3>'+esc(d.name)+'</h3>'+
+          '<p>'+esc(d.desc)+'</p>'+
+          '<div class="drink-order">Order this <span>→</span></div>'+
+        '</div>';
+      grid.appendChild(card);
     });
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach(e => {
-        if (e.isIntersecting){
-          e.target.style.opacity = '1';
-          e.target.style.transform = 'none';
-          io.unobserve(e.target);
-        }
+  })();
+
+  /* ---------- CUSTOMIZER ---------- */
+  (function(){
+    var state = { drink:'boba', sweet:3, ice:2, toppings:{ boba:true, pudding:false, sago:false, jelly:false } };
+    var baseGrid=document.getElementById('baseGrid'), sweetRow=document.getElementById('sweetRow'),
+        iceRow=document.getElementById('iceRow'), topGrid=document.getElementById('topGrid'),
+        liquid=document.getElementById('cupLiquid'), pudding=document.getElementById('cupPudding'),
+        iceBox=document.getElementById('cupIce'), pearlBox=document.getElementById('cupPearls'),
+        sumEl=document.getElementById('custSummary'), totEl=document.getElementById('custTotal');
+
+    function active(){ return DRINKS.filter(function(d){return d.id===state.drink;})[0] || DRINKS[0]; }
+
+    function buildBase(){
+      baseGrid.innerHTML='';
+      DRINKS.forEach(function(d){
+        var b=el('button','base-btn'+(d.id===state.drink?' on':''));
+        b.innerHTML='<span class="swatch" style="background:'+d.liquid+';"></span>'+esc(d.short);
+        b.onclick=function(){ state.drink=d.id; render(); };
+        baseGrid.appendChild(b);
       });
-    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
-    reveal.forEach(el => io.observe(el));
-
-    this._onScroll = () => {
-      const y = window.scrollY || window.pageYOffset || 0;
-      const nav = this.navRef.current;
-      if (nav){
-        if (y > 40){
-          nav.style.background = 'rgba(5,5,5,.92)';
-          nav.style.borderBottomColor = 'rgba(255,255,255,.08)';
-          nav.style.backdropFilter = 'blur(14px)';
-          nav.style.webkitBackdropFilter = 'blur(14px)';
-        } else {
-          nav.style.background = 'rgba(5,5,5,0)';
-          nav.style.borderBottomColor = 'rgba(255,255,255,0)';
-          nav.style.backdropFilter = 'blur(0px)';
-          nav.style.webkitBackdropFilter = 'blur(0px)';
-        }
+    }
+    function buildSweet(){
+      sweetRow.innerHTML='';
+      SWEET.forEach(function(lbl,i){
+        var b=el('button','pill'+(i===state.sweet?' on':''),lbl);
+        b.onclick=function(){ state.sweet=i; render(); };
+        sweetRow.appendChild(b);
+      });
+    }
+    function buildIce(){
+      iceRow.innerHTML='';
+      ICE.forEach(function(it,i){
+        var b=el('button','pill'+(i===state.ice?' on':''),it.label);
+        b.onclick=function(){ state.ice=i; render(); };
+        iceRow.appendChild(b);
+      });
+    }
+    function buildTops(){
+      topGrid.innerHTML='';
+      TOPS.forEach(function(t){
+        var on=!!state.toppings[t.id];
+        var b=el('button','top-btn'+(on?' on':''));
+        b.innerHTML='<span class="dot"></span>'+esc(t.label);
+        b.onclick=function(){ state.toppings[t.id]=!state.toppings[t.id]; render(); };
+        topGrid.appendChild(b);
+      });
+    }
+    function renderCup(){
+      liquid.style.background = active().liquid;
+      pudding.style.display = state.toppings.pudding ? 'block' : 'none';
+      // pearls
+      pearlBox.innerHTML='';
+      var i;
+      if(state.toppings.boba){ for(i=0;i<15;i++){ pearlBox.appendChild(pearl(9+((i*53)%78), 6+((i*29)%30), 15, '#2A1712')); } }
+      if(state.toppings.sago){ for(i=0;i<22;i++){ pearlBox.appendChild(pearl(7+((i*41)%82), 4+((i*37)%42), 7, 'rgba(255,255,255,.6)')); } }
+      if(state.toppings.jelly){ for(i=0;i<10;i++){ pearlBox.appendChild(pearl(12+((i*61)%68), 8+((i*23)%24), 11, '#161210')); } }
+      // ice
+      iceBox.innerHTML='';
+      var n=ICE[state.ice].n;
+      for(i=0;i<n;i++){
+        var c=el('div','icecube');
+        c.style.left=(12+((i*97)%62))+'%'; c.style.top=(8+((i*53)%28))+'%';
+        c.style.transform='rotate('+(((i*37)%40)-20)+'deg)';
+        iceBox.appendChild(c);
       }
-      const v = this.heroVideoRef.current;
-      if (v && y < window.innerHeight) v.style.transform = 'translateY(' + (y * 0.22) + 'px) scale(1.1)';
-      const t = this.heroTextRef.current;
-      if (t && y < window.innerHeight){
-        t.style.transform = 'translateY(' + (y * 0.34) + 'px)';
-        t.style.opacity = String(Math.max(0, 1 - y / 620));
-      }
-    };
-    window.addEventListener('scroll', this._onScroll, { passive: true });
-    this._onScroll();
+    }
+    function pearl(left,bottom,size,color){
+      var p=el('div','pearl');
+      p.style.left=left+'%'; p.style.bottom=bottom+'px'; p.style.width=size+'px'; p.style.height=size+'px'; p.style.background=color;
+      return p;
+    }
+    function render(){
+      buildBase(); buildSweet(); buildIce(); buildTops(); renderCup();
+      var a=active();
+      var count=0; for(var k in state.toppings){ if(state.toppings[k]) count++; }
+      totEl.textContent='Tk '+(a.base+count*40);
+      sumEl.textContent=a.short+' · '+SWEET[state.sweet]+' sweet · '+ICE[state.ice].label+(count?(' · '+count+' topping'+(count>1?'s':'')):'');
+    }
+    render();
+  })();
 
-    const mq = window.matchMedia('(min-width:900px)');
-    const applyNav = () => {
-      const links = document.querySelector('.nav-links');
-      if (links) links.style.display = mq.matches ? 'flex' : 'none';
-    };
-    applyNav();
-    mq.addEventListener('change', applyNav);
-    this._mq = mq; this._applyNav = applyNav;
-
-    const rail = this.comboRailRef.current;
-    if (rail){
-      this._onCombo = () => {
-        const center = rail.scrollLeft + rail.clientWidth / 2;
-        let best = 0, bd = Infinity;
-        Array.from(rail.children).forEach((ch, i) => {
-          const c = ch.offsetLeft + ch.clientWidth / 2;
-          const d = Math.abs(c - center);
-          if (d < bd){ bd = d; best = i; }
+  /* ---------- COMBOS ---------- */
+  (function(){
+    var rail=document.getElementById('comboRail'), dotsBox=document.getElementById('comboDots'),
+        prev=document.getElementById('comboPrev'), next=document.getElementById('comboNext');
+    COMBOS.forEach(function(c){
+      var a=el('a','combo-card'); a.href=FOODPANDA; a.target='_blank'; a.rel='noopener';
+      a.innerHTML='<img src="'+c.src+'" alt="'+esc(c.alt)+'" loading="lazy" /><span class="combo-badge">Order Now →</span>';
+      rail.appendChild(a);
+    });
+    var dots=[];
+    COMBOS.forEach(function(_,i){
+      var b=el('button','combo-dot'+(i===0?' on':'')); b.setAttribute('aria-label','Go to combo '+(i+1));
+      b.onclick=function(){ goTo(i); };
+      dotsBox.appendChild(b); dots.push(b);
+    });
+    function setActive(i){ dots.forEach(function(d,j){ d.className='combo-dot'+(j===i?' on':''); }); }
+    function goTo(i){
+      var card=rail.children[i]; if(!card) return;
+      var left=card.offsetLeft-(rail.clientWidth-card.clientWidth)/2;
+      rail.scrollTo({ left:left, behavior:'smooth' });
+    }
+    function step(dir){
+      var card=rail.children[0];
+      var s=card?card.getBoundingClientRect().width+22:rail.clientWidth*0.9;
+      rail.scrollBy({ left:dir*s, behavior:'smooth' });
+    }
+    prev.onclick=function(){ step(-1); };
+    next.onclick=function(){ step(1); };
+    var ticking=false;
+    rail.addEventListener('scroll', function(){
+      if(ticking) return; ticking=true;
+      window.requestAnimationFrame(function(){
+        var center=rail.scrollLeft+rail.clientWidth/2, best=0, bd=Infinity;
+        Array.prototype.forEach.call(rail.children, function(ch,i){
+          var c=ch.offsetLeft+ch.clientWidth/2, d=Math.abs(c-center);
+          if(d<bd){ bd=d; best=i; }
         });
-        if (best !== this.state.comboIndex) this.setState({ comboIndex: best });
-      };
-      rail.addEventListener('scroll', this._onCombo, { passive: true });
-      this._comboRail = rail;
+        setActive(best); ticking=false;
+      });
+    }, { passive:true });
+  })();
+
+  /* ---------- MENU ---------- */
+  (function(){
+    var tabsBox=document.getElementById('menuTabs'), grid=document.getElementById('menuGrid');
+    var cats=Object.keys(MENU), current=cats[0];
+    function renderGrid(){
+      grid.innerHTML='';
+      (MENU[current]||[]).forEach(function(m){
+        var item=el('div','menu-item');
+        item.innerHTML=
+          '<div style="min-width:0;">'+
+            '<div class="name">'+(m.star?'<span class="star">★</span>':'')+'<span>'+esc(m.name)+'</span></div>'+
+            '<div class="sub">'+esc(m.sub)+'</div>'+
+          '</div>'+
+          '<div class="price">'+(m.price?('Tk '+m.price):'—')+'</div>';
+        grid.appendChild(item);
+      });
     }
-  }
-
-  componentWillUnmount(){
-    if (this._onScroll) window.removeEventListener('scroll', this._onScroll);
-    if (this._mq && this._applyNav) this._mq.removeEventListener('change', this._applyNav);
-    if (this._comboRail && this._onCombo) this._comboRail.removeEventListener('scroll', this._onCombo);
-  }
-
-  renderVals(){
-    const s = this.state;
-    const DRINKS = [
-      { id:'boba', name:'Brown Sugar Boba Milk Tea', short:'Brown Sugar', tag:'Best Seller', desc:'Silky milk tea layered with warm brown-sugar syrup and chewy tapioca pearls.', liquid:'#C79A6E', base:290 },
-      { id:'matcha', name:'Matcha Milk Tea', short:'Matcha', tag:'Fan Pick', desc:'Stone-ground Japanese matcha whisked into fresh milk for an earthy, creamy sip.', liquid:'#AFC98C', base:290 },
-      { id:'mango', name:'Mango Pomelo Sago', short:'Mango Sago', tag:'Signature', desc:'Ripe mango, juicy pomelo and springy sago in a bright, refreshing classic.', liquid:'#F2B33C', base:480 },
-    ];
-    const active = DRINKS.find(d => d.id === s.drink) || DRINKS[0];
-
-    // Showcase
-    const drinksShowcase = DRINKS.map(d => ({ ...d, price: d.base, slotId: 'fav-' + d.id, placeholder: 'Drop ' + d.short + ' photo' }));
-
-    // Combos — promotional banner images (offer + price baked in)
-    const combos = [
-      { src:'assets/combo-1.webp', alt:'Runcha combo offer — Matcha Milk Tea + Brown Sugar Boba Milk Tea, 540 Tk' },
-      { src:'assets/combo-2.webp', alt:'Runcha combo offer — Mango + Brown Sugar Boba, 540 Tk' },
-      { src:'assets/combo-3.webp', alt:'Runcha combo offer — bubble tea duo, 590 Tk' },
-    ];
-    const comboDots = combos.map((_, i) => ({
-      go: () => this.goCombo(i),
-      style: `width:${i === this.state.comboIndex ? 28 : 10}px; height:10px; border-radius:100px; border:none; cursor:pointer; padding:0; background:${i === this.state.comboIndex ? '#DC0C1C' : 'rgba(255,255,255,.25)'}; transition:all .3s ease;`,
-    }));
-
-    // Base drink buttons
-    const baseBtn = (on) => `display:flex; flex-direction:column; align-items:center; justify-content:center; padding:14px 8px; border-radius:14px; cursor:pointer; font-size:13px; font-weight:700; letter-spacing:.01em; text-align:center; line-height:1.2; border:1.5px solid ${on?'#DC0C1C':'rgba(255,255,255,.12)'}; background:${on?'rgba(220,12,28,.12)':'#111'}; color:${on?'#fff':'rgba(255,255,255,.7)'}; transition:all .2s ease; font-family:'Manrope',sans-serif;`;
-    const drinks = DRINKS.map(d => ({
-      ...d,
-      btnStyle: baseBtn(d.id === s.drink),
-      select: () => this.setState({ drink: d.id }),
-    }));
-
-    // Sweetness
-    const SWEET = ['0%','30%','50%','70%','100%'];
-    const pill = (on) => `flex:1; padding:11px 6px; border-radius:100px; cursor:pointer; font-size:13px; font-weight:700; border:1.5px solid ${on?'#DC0C1C':'rgba(255,255,255,.12)'}; background:${on?'#DC0C1C':'#111'}; color:${on?'#fff':'rgba(255,255,255,.65)'}; transition:all .2s ease; font-family:'Manrope',sans-serif;`;
-    const sweetLevels = SWEET.map((label, i) => ({
-      label, style: pill(i === s.sweet), select: () => this.setState({ sweet: i }),
-    }));
-
-    // Ice
-    const ICE = [
-      { label:'No Ice', n:0 }, { label:'Less', n:2 }, { label:'Regular', n:4 }, { label:'Extra', n:6 },
-    ];
-    const iceLevels = ICE.map((it, i) => ({
-      label: it.label, style: pill(i === s.ice), select: () => this.setState({ ice: i }),
-    }));
-
-    // Toppings
-    const TOPS = [
-      { id:'boba', label:'Tapioca Boba' }, { id:'pudding', label:'Mango Pudding' },
-      { id:'sago', label:'Sago Pearls' }, { id:'jelly', label:'Grass Jelly' },
-    ];
-    const topBtn = (on) => `display:flex; align-items:center; gap:10px; padding:13px 15px; border-radius:12px; cursor:pointer; font-size:13.5px; font-weight:600; text-align:left; border:1.5px solid ${on?'#DC0C1C':'rgba(255,255,255,.12)'}; background:${on?'rgba(220,12,28,.1)':'#111'}; color:${on?'#fff':'rgba(255,255,255,.65)'}; transition:all .2s ease; font-family:'Manrope',sans-serif;`;
-    const topDot = (on) => `flex:none; width:16px; height:16px; border-radius:5px; border:1.5px solid ${on?'#DC0C1C':'rgba(255,255,255,.25)'}; background:${on?'#DC0C1C':'transparent'};`;
-    const toppings = TOPS.map(t => {
-      const on = !!s.toppings[t.id];
-      return {
-        ...t, style: topBtn(on), dot: topDot(on),
-        toggle: () => this.setState(st => ({ toppings: { ...st.toppings, [t.id]: !st.toppings[t.id] } })),
+    cats.forEach(function(c){
+      var b=el('button','menu-tab'+(c===current?' on':''),esc(c));
+      b.onclick=function(){
+        current=c;
+        Array.prototype.forEach.call(tabsBox.children,function(x){ x.classList.remove('on'); });
+        b.classList.add('on'); renderGrid();
       };
+      tabsBox.appendChild(b);
     });
+    renderGrid();
+  })();
 
-    // Cup color shifts with sweetness (darker = sweeter brown sugar)
-    const cupColor = active.liquid;
-    const hasPudding = !!s.toppings.pudding;
-
-    // Pearls
-    const pearls = [];
-    if (s.toppings.boba){
-      for (let i=0;i<15;i++) pearls.push({ key:'b'+i, left: 9 + ((i*53)%78), bottom: 6 + ((i*29)%30), size:15, color:'#2A1712' });
-    }
-    if (s.toppings.sago){
-      for (let i=0;i<22;i++) pearls.push({ key:'s'+i, left: 7 + ((i*41)%82), bottom: 4 + ((i*37)%42), size:7, color:'rgba(255,255,255,.6)' });
-    }
-    if (s.toppings.jelly){
-      for (let i=0;i<10;i++) pearls.push({ key:'j'+i, left: 12 + ((i*61)%68), bottom: 8 + ((i*23)%24), size:11, color:'#161210' });
-    }
-    // Ice cubes
-    const iceCubes = [];
-    const iceN = ICE[s.ice].n;
-    for (let i=0;i<iceN;i++) iceCubes.push({ key:'i'+i, left: 12 + ((i*97)%62), top: 8 + ((i*53)%28), rot: (i*37)%40 - 20 });
-
-    // Total price
-    const topCount = Object.values(s.toppings).filter(Boolean).length;
-    const total = active.base + topCount * 40;
-    const summary = active.short + ' · ' + SWEET[s.sweet] + ' sweet · ' + ICE[s.ice].label + (topCount ? ' · ' + topCount + ' topping' + (topCount>1?'s':'') : '');
-
-    // Menu
-    const MENU = {
-      'Milk Tea': [
-        { name:'Brown Sugar Boba Milk Tea', sub:'Regular · chewy pearls', price:290, star:true },
-        { name:'Matcha Milk Tea', sub:'Regular · stone-ground matcha', price:290 },
-        { name:'Luxury Milk Tea', sub:'Regular · house special', price:380 },
-        { name:'Mango Pudding Milk Tea', sub:'Regular · silky pudding', price:280, star:true },
-        { name:'Double Mix Boba Milk Tea', sub:'Regular · double pearls', price:330 },
-        { name:'One Cup of Passion Fruit', sub:'Regular · tangy & bright', price:380 },
-      ],
-      'Fruit & Lemon': [
-        { name:'Mango Pomelo Sago', sub:'Regular · signature', price:480 },
-        { name:'Mango Lemon Tea', sub:'Large · zesty refresher', price:280, star:true },
-        { name:'Mango Lemon Tea', sub:'Regular', price:180 },
-      ],
-      'Combos': [
-        { name:'Cake Milk Tea Combo', sub:'Drink + treat', price:590, star:true },
-        { name:'Mango Pudding Milk Tea Combo', sub:'Drink + treat', price:540, star:true },
-        { name:'Four-Person Drink Package', sub:'Share with friends', price:999 },
-        { name:'Boba Milk Tea + Any Dessert', sub:'Perfect pairing', price:450 },
-      ],
-      'Desserts': [
-        { name:'Mango Pudding', sub:'Chilled · silky', price:200 },
-        { name:'Soft Ice Cream', sub:'Ask in-store', price:0 },
-      ],
-      'Set Meals': [
-        { name:'Kung Pao Chicken with Rice', sub:'Chinese classic', price:680 },
-        { name:'Braised Beef Brisket & Tomato Rice', sub:'Hearty bowl', price:980 },
-        { name:'Home-Style Tofu Rice Bowl', sub:'Comfort food', price:680 },
-        { name:'Diced Chicken with Beans & Rice', sub:'Savoury', price:480 },
-      ],
-      'Barbecue': [
-        { name:'Beef Skewer', sub:'Char-grilled', price:150, star:true },
-        { name:'Grilled Chicken Wings', sub:'Smoky', price:200 },
-        { name:'Cheesy Garlic Lobster', sub:'Premium', price:880 },
-        { name:'Chongqing Grilled Fish', sub:'For the table', price:2980 },
-      ],
-    };
-    const cats = Object.keys(MENU);
-    const catBtn = (on) => `padding:11px 20px; border-radius:100px; cursor:pointer; font-size:13.5px; font-weight:700; letter-spacing:.02em; border:1.5px solid ${on?'#050505':'rgba(5,5,5,.15)'}; background:${on?'#050505':'transparent'}; color:${on?'#fff':'#050505'}; transition:all .2s ease; font-family:'Manrope',sans-serif;`;
-    const menuCats = cats.map(c => ({ label:c, style: catBtn(c === s.cat), select: () => this.setState({ cat: c }) }));
-    const menuItems = (MENU[s.cat] || []).map((m, i) => ({ ...m, key: s.cat + i, price: m.price ? m.price : '—' }));
-
-    // Reviews
-    const reviews = [
-      { text:'The Brown Sugar Boba is unreal — pearls perfectly chewy and not too sweet. My go-to in Uttara now.', name:'Nabila R.', initial:'N', meta:'Foodpanda · Verified' },
-      { text:'Cake Milk Tea and the beef skewers hit every time. Fast delivery and everything arrives fresh.', name:'Tanvir H.', initial:'T', meta:'Foodpanda · Verified' },
-      { text:'Mango Pudding Milk Tea is a must. Aesthetic cups, great flavour — feels premium for the price.', name:'Sadia K.', initial:'S', meta:'Foodpanda · Verified' },
-    ];
-
-    // Stores
-    const activeBadge = 'font-size:10px; font-weight:800; letter-spacing:.1em; text-transform:uppercase; padding:5px 11px; border-radius:100px; background:rgba(220,12,28,.15); color:#DC0C1C; border:1px solid rgba(220,12,28,.4);';
-    const goldBadge = 'font-size:10px; font-weight:800; letter-spacing:.1em; text-transform:uppercase; padding:5px 11px; border-radius:100px; background:rgba(219,166,50,.14); color:#DBA632; border:1px solid rgba(219,166,50,.4);';
-    const stores = [
-      { name:'Runcha Club', badge:'Flagship', badgeStyle: activeBadge, address:'House 38, Road 11, Sector 4, Uttara, Dhaka', hours:'11 AM – 10 PM', serving:'Full menu', map:'https://maps.google.com/?q=Runcha+Club+Sector+4+Uttara+Dhaka' },
-      { name:'Runcha Centrepoint', badge:'Branch', badgeStyle: goldBadge, address:"Chef's Table, Centrepoint, 5th Floor, beside Airport, Dhaka–Mymensingh Road, Uttara", hours:'11 AM – 10 PM', serving:'Drinks & combos', map:'https://maps.google.com/?q=Centrepoint+Uttara+Dhaka' },
-    ];
-
-    // FAQ
-    const FAQ = [
-      { q:'What are your opening hours?', a:'Runcha Club is open daily from 11:00 AM to 10:00 PM for both dine-in and delivery. Last orders are taken shortly before closing.' },
-      { q:'Do you deliver? How do I order online?', a:'Yes — order through our Foodpanda listing for Runcha Club, Sector 4. Delivery hours run 11:00 AM to 10:00 PM daily.' },
-      { q:'Can I adjust sweetness and ice?', a:'Absolutely. Every signature drink can be customised for sweetness (0% to 100%), ice level and toppings like tapioca boba, mango pudding, sago and grass jelly.' },
-      { q:'Is there a second location?', a:'Yes. Beyond the Sector 4 flagship, you can find Runcha at Centrepoint (5th Floor, beside the airport) serving drinks, desserts and combos.' },
-      { q:'How do I get in touch or book for a group?', a:'Call the branch hotline at 01781-999999, or reach us on Facebook (@runchatea) and Instagram (@runcha.bd) for reservations and group bookings.' },
-    ];
-    const faqs = FAQ.map((f, i) => {
-      const open = s.faq === i;
-      return {
-        ...f,
-        toggle: () => this.setState({ faq: open ? -1 : i }),
-        iconStyle: `flex:none; width:30px; height:30px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:22px; font-weight:400; background:${open?'#DC0C1C':'#FFF3F4'}; color:${open?'#fff':'#DC0C1C'}; transform:rotate(${open?45:0}deg); transition:all .3s ease;`,
-        answerStyle: `max-height:${open?260:0}px; overflow:hidden; transition:max-height .4s ease;`,
-      };
+  /* ---------- REVIEWS ---------- */
+  (function(){
+    var grid=document.getElementById('reviewGrid');
+    REVIEWS.forEach(function(r){
+      var c=el('div','rev-card'); c.setAttribute('data-reveal','');
+      c.innerHTML=
+        '<div class="rev-stars">★★★★★</div>'+
+        '<p>“'+esc(r.text)+'”</p>'+
+        '<div class="rev-person"><div class="rev-av">'+esc(r.initial)+'</div>'+
+        '<div><div style="font-weight:700; font-size:14px;">'+esc(r.name)+'</div>'+
+        '<div style="font-size:12px; color:rgba(255,255,255,.45);">'+esc(r.meta)+'</div></div></div>';
+      grid.appendChild(c);
     });
+  })();
 
-    return {
-      navRef: this.navRef, heroVideoRef: this.heroVideoRef, heroTextRef: this.heroTextRef,
-      drinksShowcase, combos, comboDots, comboRailRef: this.comboRailRef,
-      comboPrev: () => this.scrollCombo(-1), comboNext: () => this.scrollCombo(1),
-      drinks, sweetLevels, iceLevels, toppings,
-      cupColor, hasPudding, pearls, iceCubes, total, summary,
-      menuCats, menuItems, reviews, stores, faqs,
-      year: new Date().getFullYear(),
-    };
-  }
-}
+  /* ---------- LOCATIONS ---------- */
+  (function(){
+    var list=document.getElementById('locList');
+    STORES.forEach(function(s){
+      var c=el('div','loc-card'); c.setAttribute('data-reveal','');
+      c.innerHTML=
+        '<div class="row"><h3>'+esc(s.name)+'</h3><span class="badge '+s.badgeClass+'">'+esc(s.badge)+'</span></div>'+
+        '<p class="addr">'+esc(s.address)+'</p>'+
+        '<div class="loc-meta">'+
+          '<div><div class="k">Hours</div><div class="v">'+esc(s.hours)+'</div></div>'+
+          '<div><div class="k">Serving</div><div class="v">'+esc(s.serving)+'</div></div>'+
+        '</div>'+
+        '<div class="loc-actions">'+
+          '<a class="btn btn-red" href="'+s.map+'" target="_blank" rel="noopener">Directions</a>'+
+          '<a class="btn btn-call" href="tel:01781999999">Call</a>'+
+        '</div>';
+      list.appendChild(c);
+    });
+  })();
+
+  /* ---------- FAQ ---------- */
+  (function(){
+    var listBox=document.getElementById('faqList'), openIdx=0;
+    var items=[];
+    FAQ.forEach(function(f,i){
+      var item=el('div','faq-item'+(i===openIdx?' open':''));
+      item.innerHTML=
+        '<button class="faq-q" aria-expanded="'+(i===openIdx)+'"><span>'+esc(f.q)+'</span><span class="faq-icon">+</span></button>'+
+        '<div class="faq-a"><p>'+esc(f.a)+'</p></div>';
+      var ans=item.querySelector('.faq-a'), btn=item.querySelector('.faq-q');
+      btn.onclick=function(){
+        var isOpen=item.classList.contains('open');
+        items.forEach(function(o){ o.item.classList.remove('open'); o.ans.style.maxHeight='0'; o.btn.setAttribute('aria-expanded','false'); });
+        if(!isOpen){ item.classList.add('open'); ans.style.maxHeight=ans.scrollHeight+'px'; btn.setAttribute('aria-expanded','true'); }
+      };
+      listBox.appendChild(item);
+      items.push({ item:item, ans:ans, btn:btn });
+    });
+    // open the first one to its natural height
+    if(items[openIdx]){ items[openIdx].ans.style.maxHeight=items[openIdx].ans.scrollHeight+'px'; }
+    window.addEventListener('resize', function(){
+      items.forEach(function(o){ if(o.item.classList.contains('open')) o.ans.style.maxHeight=o.ans.scrollHeight+'px'; });
+    });
+  })();
+
+  /* ---------- MOBILE NAV ---------- */
+  (function(){
+    var burger=document.getElementById('burger'), menu=document.getElementById('mobileMenu');
+    function close(){ menu.classList.remove('open'); burger.classList.remove('open'); burger.setAttribute('aria-expanded','false'); }
+    burger.addEventListener('click', function(){
+      var open=menu.classList.toggle('open');
+      burger.classList.toggle('open', open);
+      burger.setAttribute('aria-expanded', open?'true':'false');
+    });
+    Array.prototype.forEach.call(menu.querySelectorAll('a'), function(a){ a.addEventListener('click', close); });
+  })();
+
+  /* ---------- NAV SCROLL + HERO PARALLAX ---------- */
+  (function(){
+    var nav=document.getElementById('nav'), heroVideo=document.getElementById('heroVideo'),
+        heroText=document.getElementById('heroText');
+    if(heroVideo){ heroVideo.muted=true; heroVideo.defaultMuted=true; var p=heroVideo.play(); if(p&&p.catch) p.catch(function(){}); }
+    var isSmall = window.matchMedia('(max-width:900px)');
+    function onScroll(){
+      var y=window.scrollY||window.pageYOffset||0;
+      if(y>40) nav.classList.add('scrolled'); else nav.classList.remove('scrolled');
+      if(!isSmall.matches){
+        if(heroVideo && y<window.innerHeight) heroVideo.style.transform='translateY('+(y*0.22)+'px) scale(1.1)';
+        if(heroText && y<window.innerHeight){
+          heroText.style.transform='translateY('+(y*0.34)+'px)';
+          heroText.style.opacity=String(Math.max(0,1-y/620));
+        }
+      } else if(heroText){ heroText.style.transform='none'; heroText.style.opacity='1'; }
+    }
+    window.addEventListener('scroll', onScroll, { passive:true });
+    onScroll();
+  })();
+
+  /* ---------- SCROLL REVEAL ---------- */
+  (function(){
+    var els=document.querySelectorAll('[data-reveal]');
+    if(!('IntersectionObserver' in window)){
+      Array.prototype.forEach.call(els,function(e){ e.classList.add('in'); }); return;
+    }
+    var io=new IntersectionObserver(function(entries){
+      entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, { threshold:0.12, rootMargin:'0px 0px -8% 0px' });
+    Array.prototype.forEach.call(els,function(e){ io.observe(e); });
+  })();
+
+  document.getElementById('year').textContent = new Date().getFullYear();
+})();
 </script>
 </body>
 </html>
